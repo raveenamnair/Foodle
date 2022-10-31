@@ -32,7 +32,7 @@ export default function CreateAccount() {
     return (
         <main>
             <h1>Create Account</h1>
-            <div className="createAccountForm">
+            <div className="pageContent">
             <form onSubmit={handleSubmit}>
             <label>
                 Username:
