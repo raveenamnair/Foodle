@@ -74,6 +74,36 @@ app.route('/recipe/:recipe_id')
     );
   });
 
+/*
+ * Route for Recipe_Ingredients
+ */
+
+app.route('/recipe_ingredients/:recipe_id')
+  .get(function(req, res, next) {
+    connection.query(
+      "SELECT * FROM `Recipe_Ingredients` ri JOIN `Ingredient` i ON ri.ingredient_name = i.name WHERE ri.recipe_id = ?", req.params.recipe_id, 
+      function(error, results, fields) {
+        if (error) throw error;
+        res.json(results);
+      }
+    );
+  });
+
+/*
+ * Route for Rating
+ */
+
+app.route('/avg_rating/:recipe_id')
+  .get(function(req, res, next) {
+    connection.query(
+      "SELECT AVG(score) as 'avg' FROM `Rating` WHERE recipe_id = ?", req.params.recipe_id, 
+      function(error, results, fields) {
+        if (error) throw error;
+        res.json(results);
+      }
+    );
+  });
+
 app.get('/status', (req, res) => res.send('Working!'));
 
 // Port 8080 for Google App Engine
