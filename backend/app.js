@@ -12,6 +12,9 @@ var Buffer = require('buffer').Buffer
 app.use(cors()) // Use this after the variable declaration
 app.use(bodyParser.json());
 
+/*
+ * Route for User
+ */
 
 app.route('/user')
   .get(function(req, res, next) {
@@ -56,6 +59,20 @@ app.post('/user', express.json(), function (req, res) {
   );
 });
 
+/*
+ * Route for Recipe
+ */
+
+app.route('/recipe/:recipe_id')
+  .get(function(req, res, next) {
+    connection.query(
+      "SELECT * FROM `Recipe` WHERE recipe_id = ?", req.params.recipe_id, 
+      function(error, results, fields) {
+        if (error) throw error;
+        res.json(results);
+      }
+    );
+  });
 
 app.get('/status', (req, res) => res.send('Working!'));
 
