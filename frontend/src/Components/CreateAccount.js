@@ -1,14 +1,36 @@
+import React from "react";
 import { useState } from "react";
 import axios from 'axios';
+import { useNavigate } from "react-router-dom";
+
 
 export default function CreateAccount() {
     const [username, setUsername] = useState("");
     const [name, setName] = useState("");
     const [password, setPassword] = useState("");
     const [repeatPassword, setRepeatPassword] = useState("");
+    const [userData, setUserData] = useState([]);
+    let navigate = useNavigate();
+
+
+    React.useEffect(() => {
+        axios.get('http://localhost:9000/user')
+             .then((response) => setUserData(response.data))
+             .catch((error) => console.log(error.message))
+    }, []);
     
     const handleSubmit = () => {
         console.log(`${username} ${name} ${password} ${repeatPassword}`);
+        userData.forEach(element => {
+            if (username === element.username) {
+                alert("This username already has an account related to it. Please try again.")
+                setName("")
+                setUsername("")
+                setPassword("")
+                setRepeatPassword("")
+                return
+            }
+        })
 
         if (password != repeatPassword) {
             alert("Repeated Password is not the same. Please try again.");
@@ -26,14 +48,21 @@ export default function CreateAccount() {
             .catch(function (error) {
                 console.log(error);
             });
+            alert("New user created successfully!")
+            sessionStorage.setItem("username", username)
+            navigate("/")
         }
+    }
+
+    const loginNavigate = () => {
+        navigate("/login")
     }
 
     return (
         <main>
             <h1>Create Account</h1>
-            <div className="pageContent">
-            <form onSubmit={handleSubmit}>
+            <div className="createAccountForm">
+            <form>
             <label>
                 Username:
                 <span>&nbsp;&nbsp;</span> 
@@ -54,8 +83,9 @@ export default function CreateAccount() {
                 <span>&nbsp;&nbsp;</span> 
                 <input type="text" value={repeatPassword} onChange={(e) => setRepeatPassword(e.target.value)} />
             </label> <br/>
-            <input type="submit" value="Submit" />
             </form>
+            <br/> <button onClick={handleSubmit}>Create Account</button>
+            <p>Already have an account? Login Here</p> <button onClick={loginNavigate}>Login</button>
             </div>
         </main>
     );

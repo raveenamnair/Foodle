@@ -12,10 +12,10 @@ var Buffer = require('buffer').Buffer
 app.use(cors()) // Use this after the variable declaration
 app.use(bodyParser.json());
 
-/*
- * Route for User
- */
 
+/**
+ * GET all records from User Table
+ */
 app.route('/user')
   .get(function(req, res, next) {
     connection.query(
@@ -31,6 +31,9 @@ app.route('/user')
     );
   });
 
+/**
+ * GET a specific entry matching the username specified
+ */
 app.route('/user/:username')
 .get(function(req, res, next) {
 connection.query(
@@ -42,6 +45,9 @@ connection.query(
 );
 });
 
+/**
+ * POST a new record into the User table
+ */
 app.post('/user', express.json(), function (req, res) {
   const obj = JSON.parse(req.body.body)
   const values_string = `("${obj.username}", "${obj.name}", "${obj.password}")`
@@ -53,7 +59,7 @@ app.post('/user', express.json(), function (req, res) {
         console.log(err);
       }
       else{
-        console.log('Posted an image!');
+        console.log('Posted a new entry in User Table');
       }
     }
   );
@@ -73,7 +79,7 @@ app.route('/recipe/:recipe_id')
       }
     );
   });
-
+  
 /*
  * Route for Recipe_Ingredients
  */
@@ -104,6 +110,10 @@ app.route('/avg_rating/:recipe_id')
     );
   });
 
+/**
+ * Just to check status of the connection
+ */
+ 
 app.get('/status', (req, res) => res.send('Working!'));
 
 // Port 8080 for Google App Engine
