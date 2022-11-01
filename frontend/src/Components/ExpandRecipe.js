@@ -63,7 +63,7 @@ export default function ExpandRecipe() {
                         <span>By: <span className='boldText'>{upperCaseFirstLetters(recipeData.author)}</span></span>
                         <span>Servings: <span className='boldText'>{recipeData.servings}</span></span>
                         <div>Duration: 
-                            <span className='boldText'>{getHours(recipeData.duration)}</span> hrs 
+                            <span className='boldText'> {getHours(recipeData.duration)}</span> hrs 
                             <span className='boldText'> {getMinutes(recipeData.duration)}</span> mins 
                             <span className='boldText'> {getSeconds(recipeData.duration)}</span> secs
                         </div>
@@ -72,7 +72,7 @@ export default function ExpandRecipe() {
                         <span>Dietary Restriction: <span className='boldText'>{recipeData.dietary_restriction}</span></span>
                     </div>
                     <div className='recipeIngredients'>
-                        
+                        <h3>Ingredients:</h3>
                     </div>
                     <div className='recipeContent'>
                         {recipeData.content}
