@@ -12,6 +12,7 @@ var Buffer = require('buffer').Buffer
 app.use(cors()) // Use this after the variable declaration
 app.use(bodyParser.json());
 
+
 /**
  * GET all records from User Table
  */
@@ -64,6 +65,20 @@ app.post('/user', express.json(), function (req, res) {
   );
 });
 
+/*
+ * Route for Recipe
+ */
+
+app.route('/recipe/:recipe_id')
+  .get(function(req, res, next) {
+    connection.query(
+      "SELECT * FROM `Recipe` WHERE recipe_id = ?", req.params.recipe_id, 
+      function(error, results, fields) {
+        if (error) throw error;
+        res.json(results);
+      }
+    );
+  });
 
 /**
  * Just to check status of the connection

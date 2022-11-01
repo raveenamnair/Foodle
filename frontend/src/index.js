@@ -13,6 +13,7 @@ import AddRecipe from './Components/AddRecipe.js';
 import EditRecipe from './Components/EditRecipe.js';
 import Login from './Components/Login';
 import CreateAccount from './Components/CreateAccount';
+import ExpandRecipe from './Components/ExpandRecipe';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -28,6 +29,7 @@ root.render(
       <Route path="/editRecipe" element={<EditRecipe />} />
       <Route path="/login" element={<Login />} />
       <Route path="/createAccount" element={<CreateAccount />} />
+      <Route path="/expandRecipe" element={<ExpandRecipe />} />
     </Routes>
   </BrowserRouter>
 );
