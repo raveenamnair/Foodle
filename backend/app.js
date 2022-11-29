@@ -64,6 +64,35 @@ app.post('/user', express.json(), function (req, res) {
   );
 });
 
+app.route('/check/password')
+.post(express.json(), function(req, res, next) {
+  //console.log(req.body)
+  //console.log(req.params.password)
+  // const obj = JSON.parse(req.body.body)
+  // const q = {
+  //   password: {"type":"Buffer","data":[49,50,51,52,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]}
+  // }
+  
+  // var base64 = Buffer.from(q.password, "base64").toString();
+  //        console.log(base64)
+  console.log("Typed Password: " + req.body.typedPassword)
+  var base64 = Buffer.from(req.body.actualPassword, "base64").toString();
+  console.log("Actual Password: " + base64)
+  console.log(base64.length)
+  res.send('yes')
+  // if (base64 === req.body.typedPassword) {
+  //   console.log("same")
+  //   res.sendStatus(111).send(' Found');
+
+  // } else {
+  //   console.log("diff")
+  //   res.sendStatus(222).send('Not Found');
+  // }
+  // // console.log(base64)
+  
+  
+});
+
 
 /**
  * Just to check status of the connection
