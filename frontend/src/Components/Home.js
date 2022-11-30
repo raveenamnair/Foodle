@@ -6,7 +6,7 @@ export default function Home() {
 
 
     const click = () => {
-        axios.get("http://localhost:9000/user")
+        axios.get("/user")
   .then(response => {
     
     console.log(response.data);
@@ -19,7 +19,7 @@ export default function Home() {
             name: 'Flintstone',
             password: '123'
         }
-        axios.post('http://localhost:9000/user', {body:JSON.stringify(data)})
+        axios.post('/user', {body:JSON.stringify(data)})
         .then(function (response) {
             console.log(response);
         })
