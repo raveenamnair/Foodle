@@ -110,6 +110,20 @@ app.route('/avg_rating/:recipe_id')
     );
   });
 
+/*
+ * Calls the stored procedure checkpassword() 
+ */
+app.route('/check_password')
+.get(function(req, res, next) {
+  connection.query(
+    "SET @result = 0; CALL checkpassword(?, ? @result); SELECT @result;", req.params.input_password, req.params.username,
+    function(error, results, fields) {
+      if (error) throw error;
+      res.json(results);
+    }
+  );
+});
+
 /**
  * Just to check status of the connection
  */
