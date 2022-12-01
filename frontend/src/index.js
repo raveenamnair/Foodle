@@ -6,6 +6,7 @@ import {
     Routes,
     Route,
 } from "react-router-dom";
+import axios from 'axios';
 import ExploreRecipes from "./Components/ExploreRecipes.js";
 import Home from "./Components/Home.js";
 import Profile from "./Components/Profile.js";
@@ -13,8 +14,10 @@ import AddRecipe from './Components/AddRecipe.js';
 import EditRecipe from './Components/EditRecipe.js';
 import Login from './Components/Login';
 import CreateAccount from './Components/CreateAccount';
+import ExpandRecipe from './Components/ExpandRecipe';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+axios.defaults.baseURL = process.env.REACT_APP_BE_URL;
 
 /* Register all pages here. This has nothing to do with navigation bar, just the existence of the page. */
 root.render(
@@ -28,6 +31,7 @@ root.render(
       <Route path="/editRecipe" element={<EditRecipe />} />
       <Route path="/login" element={<Login />} />
       <Route path="/createAccount" element={<CreateAccount />} />
+      <Route path="/expandRecipe" element={<ExpandRecipe />} />
     </Routes>
   </BrowserRouter>
 );

@@ -14,7 +14,7 @@ export default function CreateAccount() {
 
 
     React.useEffect(() => {
-        axios.get('http://localhost:9000/user')
+        axios.get('/user')
              .then((response) => setUserData(response.data))
              .catch((error) => console.log(error.message))
     }, []);
@@ -41,7 +41,7 @@ export default function CreateAccount() {
                 name: name,
                 password: password
             }
-            axios.post('http://localhost:9000/user', {body:JSON.stringify(data)})
+            axios.post('/user', {body:JSON.stringify(data)})
             .then(function (response) {
                 console.log(response);
             })
