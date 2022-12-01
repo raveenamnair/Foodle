@@ -12,7 +12,7 @@ export default function ExpandRecipe() {
     // const selectedRecipeId = useLocation().state.recipe_id;
     const selectedRecipeId = 1;
     const getSelectedRecipeData = () => {
-        axios.get(`http://localhost:9000/recipe/${selectedRecipeId}`)
+        axios.get(`/recipe/${selectedRecipeId}`)
             .then(response => {
                 const responseRecipe = response.data[0];
                 setRecipeData(responseRecipe);
@@ -21,7 +21,7 @@ export default function ExpandRecipe() {
             .catch(error => console.error(`Error: ${error}`));
     }
     const getRecipeIngredients = () => {
-        axios.get(`http://localhost:9000/recipe_ingredients/${selectedRecipeId}`)
+        axios.get(`/recipe_ingredients/${selectedRecipeId}`)
             .then(response => {
                 const responseIngredients = response.data;
                 setIngredients(responseIngredients);
@@ -30,7 +30,7 @@ export default function ExpandRecipe() {
             .catch(error => console.error(`Error: ${error}`));
     }
     const getAverageRating = () => {
-        axios.get(`http://localhost:9000/avg_rating/${selectedRecipeId}`)
+        axios.get(`/avg_rating/${selectedRecipeId}`)
             .then(response => {
                 const responseAvg = response.data[0];
                 setAvgRating(responseAvg);
