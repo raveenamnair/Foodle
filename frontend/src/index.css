@@ -21,13 +21,22 @@ label {
   color: #82B366;
 }
 
+.createAccountForm, .loginForm {
+  position : absolute;    
+    width    : 500px;
+    height   : 200px;
+    left     : 40%;
+    top      : 50%;
+    margin-left : -100px; /* half of the width  */
+    margin-top  : -100px; /* half of the height */
+}
 .pageContent {
   margin: auto;
   width: 75%;
   padding: 10px;
 }
 
-input[type=text] {
+input[type=text], input[type=password] {
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
    border-radius: 10px;
@@ -37,6 +46,18 @@ input[type=text] {
    padding-left: 10px;
 }
 
+button {
+  border-radius: 10px;
+  border: 1px solid gray;
+  background-color: #D5E8D4;
+  width: 25%;
+  padding: 10px;
+}
+
+/* change later */
+button:hover {
+  background: lightgray;
+}
 .lightText {
   font-weight: lighter;
 }

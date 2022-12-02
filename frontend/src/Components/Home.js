@@ -38,10 +38,7 @@ export default function Home() {
     return (
         <main>
             <h1>Foodle</h1>
-            <button onClick={click}>CLICK</button>
-            <button onClick={click2}>POST</button>
-            <button onClick={a}>Session</button>
-            
+            <p>{sessionStorage.getItem('username')}</p>
         </main>
     );
 }
