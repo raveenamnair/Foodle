@@ -28,60 +28,34 @@ export default function Login() {
             return
         }
 
-        console.log(userData[0].password.data)
-
+        // const response = await loginUser({input_password: password, username: username});
+        // console.log("status: " + status)
+        const data = {input_password: password, username: username}
+    
+        await loginUser(data)
+        console.log(status)
         
-        let res = await axios.post(`${baseURL}/check/password`, {
-            actualPassword: userData[0].password, 
-            typedPassword: password
+    }
+
+    async function loginUser(data) {
+        await axios.post('/check_password', {body:JSON.stringify(data)})
+        .then(function (response) {
+            if (response.data[0][0].result == 1) {
+                sessionStorage.setItem("username", username)
+                navigate('/')
+            } else {
+                alert('incorrect login')
+            }
+            console.log();
+            setStatus(response.data[0][0].result)
         })
-        // .then((response) => setStatus(response))
-        // .catch((error) => console.log(error.message))
+        .catch(function (error) {
+            console.log(error);
+        })
         
-        console.log(res)
-        var d = res.data.replace(/[^\x00-\x7F]/g, "");
-        console.log(res.data)
-        var y = decodeString(res.data)
-        console.log("Decoded jsonString: ", y);
-        console.log(res.data.length)
-       // var x = JSON.parse(res)
-       // console.log(x)
-        console.log(password.length)
-
-        // if ( == password.trim()) {
-        //     console.log("same")
-        // } else {
-        //     console.log("diff")
-        // }
-        // console.log(res.data.trim())
-        // console.log(password)
-        // if (res.data.trim() == password) {
-        //     console.log("same")
-        // } else {
-        //     console.log("diff")
-        // }
-
-        // const response = await fetch(`${baseURL}/check/password`, {
-        //     method: 'POST',
-        //     body: JSON.stringify({
-        //         actualPassword: userData[0].password, 
-        //          typedPassword: password
-        //     }),
-        //     headers: {
-        //       // when i added this the cors error went away?
-        //       'Content-Type': 'application/x-www-form-urlencoded',
-        //     },
-        //     contentType: 'application/json',
-
-        //   });
-        //   console.log(response)
     }
+      
 
-    const decodeString = (str) => {
-        return str.replace(/\\u[\dA-F]{4}/gi, (unicode) => {
-                return String.fromCharCode(parseInt(unicode.replace(/\\u/g, ""), 16));
-            });
-    }
     
     const createAccount = () => {
         navigate()
