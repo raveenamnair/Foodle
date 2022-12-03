@@ -77,10 +77,10 @@ export default function Login() {
                         <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
                     </label> <br/> <br/>
                 </form>
-                <button onClick={handleLogin}>Login</button>
+                <button class="button25" onClick={handleLogin}>Login</button>
                 <br></br>
                 <p>Not registered? Create an account</p> 
-                <button onClick={createAccount}>Create Account</button>
+                <button class="button25" onClick={createAccount}>Create Account</button>
             </div>
         </main>
     );

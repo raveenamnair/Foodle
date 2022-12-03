@@ -95,10 +95,6 @@ app.route('/recipe_ingredients/:recipe_id')
     );
   });
 
-/*
- * Route for Rating
- */
-
 /**
  * GET a the average rating for a specific recipe from the Rating table
  */
@@ -113,53 +109,6 @@ app.route('/avg_rating/:recipe_id')
     );
   });
 
-/*
- * Route for Recipe_Ingredients
- */
-
-app.route('/recipe_ingredients/:recipe_id')
-  .get(function(req, res, next) {
-    connection.query(
-      "SELECT * FROM `Recipe_Ingredients` ri JOIN `Ingredient` i ON ri.ingredient_name = i.name WHERE ri.recipe_id = ?", req.params.recipe_id, 
-      function(error, results, fields) {
-        if (error) throw error;
-        res.json(results);
-      }
-    );
-  });
-
-/*
- * Route for Rating
- */
-
-app.route('/avg_rating/:recipe_id')
-  .get(function(req, res, next) {
-    connection.query(
-      "SELECT AVG(score) as 'avg' FROM `Rating` WHERE recipe_id = ?", req.params.recipe_id, 
-      function(error, results, fields) {
-        if (error) throw error;
-        res.json(results);
-      }
-    );
-  });
-
-
-
-/*
- * Route for Recipe
- */
-
-app.route('/recipe/:recipe_id')
-  .get(function(req, res, next) {
-    connection.query(
-      "SELECT * FROM `Recipe` WHERE recipe_id = ?", req.params.recipe_id, 
-      function(error, results, fields) {
-        if (error) throw error;
-        res.json(results);
-      }
-    );
-  });
-  
 /**
  * POST a new rating for a specific recipe into the Rating table
  */
@@ -169,46 +118,11 @@ app.route('/recipe/:recipe_id')
   connection.query(
     `INSERT INTO Rating VALUES ${values_string}`,
     function(err, data, response) {
-      if (err){
-        console.log('Error!');
-        console.log(err);
-      }
-      else{
-        console.log('Posted a new entry in Rating Table');
-      }
+      if (error) throw error;
+      res.json(results);
     }
   );
 });
-
-/*
- * Route for Recipe_Ingredients
- */
-
-app.route('/recipe_ingredients/:recipe_id')
-  .get(function(req, res, next) {
-    connection.query(
-      "SELECT * FROM `Recipe_Ingredients` ri JOIN `Ingredient` i ON ri.ingredient_name = i.name WHERE ri.recipe_id = ?", req.params.recipe_id, 
-      function(error, results, fields) {
-        if (error) throw error;
-        res.json(results);
-      }
-    );
-  });
-
-/*
- * Route for Rating
- */
-
-app.route('/avg_rating/:recipe_id')
-  .get(function(req, res, next) {
-    connection.query(
-      "SELECT AVG(score) as 'avg' FROM `Rating` WHERE recipe_id = ?", req.params.recipe_id, 
-      function(error, results, fields) {
-        if (error) throw error;
-        res.json(results);
-      }
-    );
-  });
 
 /*
  * Calls the stored procedure checkpassword() 

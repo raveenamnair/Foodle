@@ -59,8 +59,11 @@ button {
   border-radius: 10px;
   border: 1px solid gray;
   background-color: #D5E8D4;
-  width: 25%;
   padding: 10px;
+}
+
+.button25 {
+  width: 25%
 }
 
 /* change later */
@@ -70,6 +73,21 @@ button:hover {
 
 .lightText {
   font-weight: lighter;
+}
+
+#recipeTitle {
+  display: grid;
+  grid-template-columns: 60% 35%;
+  gap: 10px;
+  justify-content: space-between;
+  align-items: start;
+}
+
+#recipeButtons {
+  display: flex;
+  justify-content: flex-end;
+  margin: auto 0px;
+  gap: 10px;
 }
 
 .headerDetails {
@@ -110,6 +128,6 @@ button:hover {
 #enterRating {
   width: 100%;
   display: grid;
-  grid-template-columns: 75% 25%;
+  grid-template-columns: 65% 25%;
   gap: 10px;
 }

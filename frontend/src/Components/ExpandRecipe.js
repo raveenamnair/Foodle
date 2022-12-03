@@ -100,23 +100,62 @@ export default function ExpandRecipe() {
             }
         }
     }
+    const allowRating = () => {
+        if (currUsername != null) {
+            return (
+                <>
+                <span>Post Rating</span>
+                <div id="enterRating">
+                    <input type="number" min="1" max="10" step="1" value={rating} onChange={(e) => setRating(e.target.value)} />
+                    <button onClick={handleSubmitRating}>Submit</button>
+                </div>
+                </>
+            )
+        } else {
+            return (
+                <></>
+            )
+        }
+    }
+    const editDeleteRecipe = () => {
+        if (currUsername == recipeData.author) {
+            return (
+                <>
+                <div id="recipeButtons">
+                    <button>Edit Recipe</button>
+                    <button>Delete Recipe</button>
+                </div>
+                </>
+            )
+        } else {
+            return (
+                <></>
+            )
+        }
+    }
 
     // Button handlers
-    const handleSubmitRating = () => {
+    const handleSubmitRating = async () => {
+        if (rating < 1 || rating > 10) {
+            alert("Please rate between 1 and 10")
+            return
+        }
+
         const data = {
             username: currUsername,
             recipe_id: selectedRecipeId,
             score: rating
         }
 
-        axios.post('/rating', {body:JSON.stringify(data)})
+        await axios.post('/rating', {body:JSON.stringify(data)})
         .then(function (response) {
-            console.log(response);
             alert("Thank you for rating the recipe!");
+            window.location.reload(false);
+            console.log(response);
         })
         .catch(function (error) {
-            console.log(error);
             alert("Please try rating again later");
+            console.log(error);
         });
         
     }
@@ -133,7 +172,10 @@ export default function ExpandRecipe() {
         <main>
             <div className='pageContent'>
                 <div id='recipeHeader'>
-                    <h1>{recipeData.name}</h1> 
+                    <div id='recipeTitle'>
+                        <h1>{recipeData.name}</h1> 
+                        {editDeleteRecipe()}
+                    </div>
                     <div className='headerDetails'>
                         <span>By: <span className='lightText'>{upperCaseFirstLetters(recipeData.author)}</span></span>
                         <span>Servings: <span className='lightText'>{recipeData.servings}</span></span>
@@ -156,11 +198,7 @@ export default function ExpandRecipe() {
                 </div>
                 <div id='ratingContainer'>
                     <div id='postRating'>
-                        <span>Post Rating</span>
-                        <div id="enterRating">
-                            <input type="number" min="1" max="10" step="1" value={rating} onChange={(e) => setRating(e.target.value)} />
-                            <button onClick={handleSubmitRating}>Submit</button>
-                        </div>
+                        {allowRating()}
                     </div>
                     <div id='averageRating'>
                         {summaryRating()}
