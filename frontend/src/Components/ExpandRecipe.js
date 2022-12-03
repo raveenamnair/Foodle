@@ -8,9 +8,13 @@ export default function ExpandRecipe() {
     const [recipeData, setRecipeData] = useState('');
     const [ingredients, setIngredients] = useState('');
     const [avgRating, setAvgRating] = useState('');
+    const [rating, setRating] = useState("");
+    const [currUsername, setCurrUsername] = useState("");
 
     // const selectedRecipeId = useLocation().state.recipe_id;
     const selectedRecipeId = 1;
+
+    // Functions to get recipe information
     const getSelectedRecipeData = () => {
         axios.get(`/recipe/${selectedRecipeId}`)
             .then(response => {
@@ -38,25 +42,26 @@ export default function ExpandRecipe() {
             })
             .catch(error => console.error(`Error: ${error}`));
     }
+    const getCurrentUser = () => {
+        setCurrUsername(sessionStorage.getItem('username'));
+    }
 
+    // Helper functions
     const upperCaseFirstLetters = (word) => {
         if (word != null) {
             return word.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase());
         }
     }
-
     const getHours = (durationMinutes) => {
         if (durationMinutes != null) {
             return Math.trunc(durationMinutes / 60)
         }
     }
-    
     const getMinutes = (durationMinutes) => {
         if (durationMinutes != null) {
             return Math.trunc(durationMinutes % 60)
         }
     }
-
     const getSeconds = (durationMinutes) => {
         if (durationMinutes != null) {
             return Math.trunc((recipeData.duration - Math.trunc(recipeData.duration)) * 60)
@@ -95,8 +100,68 @@ export default function ExpandRecipe() {
             }
         }
     }
+    const allowRating = () => {
+        if (currUsername != null) {
+            return (
+                <>
+                <span>Post Rating</span>
+                <div id="enterRating">
+                    <input type="number" min="1" max="10" step="1" value={rating} onChange={(e) => setRating(e.target.value)} />
+                    <button onClick={handleSubmitRating}>Submit</button>
+                </div>
+                </>
+            )
+        } else {
+            return (
+                <></>
+            )
+        }
+    }
+    const editDeleteRecipe = () => {
+        if (currUsername == recipeData.author) {
+            return (
+                <>
+                <div id="recipeButtons">
+                    <button>Edit Recipe</button>
+                    <button>Delete Recipe</button>
+                </div>
+                </>
+            )
+        } else {
+            return (
+                <></>
+            )
+        }
+    }
+
+    // Button handlers
+    const handleSubmitRating = async () => {
+        if (rating < 1 || rating > 10) {
+            alert("Please rate between 1 and 10")
+            return
+        }
+
+        const data = {
+            username: currUsername,
+            recipe_id: selectedRecipeId,
+            score: rating
+        }
+
+        await axios.post('/rating', {body:JSON.stringify(data)})
+        .then(function (response) {
+            alert("Thank you for rating the recipe!");
+            window.location.reload(false);
+            console.log(response);
+        })
+        .catch(function (error) {
+            alert("Please try rating again later");
+            console.log(error);
+        });
+        
+    }
 
     useEffect(() => {
+        getCurrentUser();
         getSelectedRecipeData();
         getRecipeIngredients();
         getAverageRating();
@@ -107,7 +172,10 @@ export default function ExpandRecipe() {
         <main>
             <div className='pageContent'>
                 <div id='recipeHeader'>
-                    <h1>{recipeData.name}</h1> 
+                    <div id='recipeTitle'>
+                        <h1>{recipeData.name}</h1> 
+                        {editDeleteRecipe()}
+                    </div>
                     <div className='headerDetails'>
                         <span>By: <span className='lightText'>{upperCaseFirstLetters(recipeData.author)}</span></span>
                         <span>Servings: <span className='lightText'>{recipeData.servings}</span></span>
@@ -130,7 +198,7 @@ export default function ExpandRecipe() {
                 </div>
                 <div id='ratingContainer'>
                     <div id='postRating'>
-                        <span>Post Rating</span>
+                        {allowRating()}
                     </div>
                     <div id='averageRating'>
                         {summaryRating()}

@@ -95,10 +95,9 @@ app.route('/recipe_ingredients/:recipe_id')
     );
   });
 
-/*
- * Route for Rating
+/**
+ * GET a the average rating for a specific recipe from the Rating table
  */
-
 app.route('/avg_rating/:recipe_id')
   .get(function(req, res, next) {
     connection.query(
@@ -109,6 +108,41 @@ app.route('/avg_rating/:recipe_id')
       }
     );
   });
+
+/**
+ * POST a new rating for a specific recipe into the Rating table
+ */
+ app.post('/rating', express.json(), function (req, res) {
+  const obj = JSON.parse(req.body.body)
+  const values_string = `("${obj.username}", "${obj.recipe_id}", "${obj.score}")`
+  connection.query(
+    `INSERT INTO Rating VALUES ${values_string}`,
+    function(err, data, response) {
+      if (error) throw error;
+      res.json(results);
+    }
+  );
+});
+
+/*
+ * Calls the stored procedure checkpassword() 
+ */
+app.route('/check_password')
+.post(function(req, res, next) {
+  console.log(req.body)
+  const obj = JSON.parse(req.body.body)
+  
+  //console.log(obj.input_password)
+  const values_string = `"${obj.input_password}", "${obj.username}"`
+
+  connection.query(
+    `CALL checkpassword(${values_string});`,
+    function(error, results, fields) {
+      if (error) throw error;
+      res.json(results);
+    }
+  );
+});
 
 /**
  * Just to check status of the connection

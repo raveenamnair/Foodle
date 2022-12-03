@@ -84,8 +84,8 @@ export default function CreateAccount() {
                 <input type="text" value={repeatPassword} onChange={(e) => setRepeatPassword(e.target.value)} />
             </label> <br/>
             </form>
-            <br/> <button onClick={handleSubmit}>Create Account</button>
-            <p>Already have an account? Login Here</p> <button onClick={loginNavigate}>Login</button>
+            <br/> <button class="button25" onClick={handleSubmit}>Create Account</button>
+            <p>Already have an account? Login Here</p> <button class="button25" onClick={loginNavigate}>Login</button>
             </div>
         </main>
     );
