@@ -1,4 +1,4 @@
--- put all your stored procedures in this file
+-- task: Check if the password inputted for a specific user is right
 
 DROP PROCEDURE IF EXISTS checkpassword;
 DELIMITER $$

@@ -8,9 +8,13 @@ export default function ExpandRecipe() {
     const [recipeData, setRecipeData] = useState('');
     const [ingredients, setIngredients] = useState('');
     const [avgRating, setAvgRating] = useState('');
+    const [rating, setRating] = useState("");
+    const [currUsername, setCurrUsername] = useState("");
 
     // const selectedRecipeId = useLocation().state.recipe_id;
     const selectedRecipeId = 1;
+
+    // Functions to get recipe information
     const getSelectedRecipeData = () => {
         axios.get(`/recipe/${selectedRecipeId}`)
             .then(response => {
@@ -38,25 +42,26 @@ export default function ExpandRecipe() {
             })
             .catch(error => console.error(`Error: ${error}`));
     }
+    const getCurrentUser = () => {
+        setCurrUsername(sessionStorage.getItem('username'));
+    }
 
+    // Helper functions
     const upperCaseFirstLetters = (word) => {
         if (word != null) {
             return word.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase());
         }
     }
-
     const getHours = (durationMinutes) => {
         if (durationMinutes != null) {
             return Math.trunc(durationMinutes / 60)
         }
     }
-    
     const getMinutes = (durationMinutes) => {
         if (durationMinutes != null) {
             return Math.trunc(durationMinutes % 60)
         }
     }
-
     const getSeconds = (durationMinutes) => {
         if (durationMinutes != null) {
             return Math.trunc((recipeData.duration - Math.trunc(recipeData.duration)) * 60)
@@ -96,7 +101,28 @@ export default function ExpandRecipe() {
         }
     }
 
+    // Button handlers
+    const handleSubmitRating = () => {
+        const data = {
+            username: currUsername,
+            recipe_id: selectedRecipeId,
+            score: rating
+        }
+
+        axios.post('/rating', {body:JSON.stringify(data)})
+        .then(function (response) {
+            console.log(response);
+            alert("Thank you for rating the recipe!");
+        })
+        .catch(function (error) {
+            console.log(error);
+            alert("Please try rating again later");
+        });
+        
+    }
+
     useEffect(() => {
+        getCurrentUser();
         getSelectedRecipeData();
         getRecipeIngredients();
         getAverageRating();
@@ -131,6 +157,10 @@ export default function ExpandRecipe() {
                 <div id='ratingContainer'>
                     <div id='postRating'>
                         <span>Post Rating</span>
+                        <div id="enterRating">
+                            <input type="number" min="1" max="10" step="1" value={rating} onChange={(e) => setRating(e.target.value)} />
+                            <button onClick={handleSubmitRating}>Submit</button>
+                        </div>
                     </div>
                     <div id='averageRating'>
                         {summaryRating()}
