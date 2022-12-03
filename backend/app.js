@@ -113,6 +113,53 @@ app.route('/avg_rating/:recipe_id')
     );
   });
 
+/*
+ * Route for Recipe_Ingredients
+ */
+
+app.route('/recipe_ingredients/:recipe_id')
+  .get(function(req, res, next) {
+    connection.query(
+      "SELECT * FROM `Recipe_Ingredients` ri JOIN `Ingredient` i ON ri.ingredient_name = i.name WHERE ri.recipe_id = ?", req.params.recipe_id, 
+      function(error, results, fields) {
+        if (error) throw error;
+        res.json(results);
+      }
+    );
+  });
+
+/*
+ * Route for Rating
+ */
+
+app.route('/avg_rating/:recipe_id')
+  .get(function(req, res, next) {
+    connection.query(
+      "SELECT AVG(score) as 'avg' FROM `Rating` WHERE recipe_id = ?", req.params.recipe_id, 
+      function(error, results, fields) {
+        if (error) throw error;
+        res.json(results);
+      }
+    );
+  });
+
+
+
+/*
+ * Route for Recipe
+ */
+
+app.route('/recipe/:recipe_id')
+  .get(function(req, res, next) {
+    connection.query(
+      "SELECT * FROM `Recipe` WHERE recipe_id = ?", req.params.recipe_id, 
+      function(error, results, fields) {
+        if (error) throw error;
+        res.json(results);
+      }
+    );
+  });
+  
 /**
  * POST a new rating for a specific recipe into the Rating table
  */
@@ -134,12 +181,48 @@ app.route('/avg_rating/:recipe_id')
 });
 
 /*
+ * Route for Recipe_Ingredients
+ */
+
+app.route('/recipe_ingredients/:recipe_id')
+  .get(function(req, res, next) {
+    connection.query(
+      "SELECT * FROM `Recipe_Ingredients` ri JOIN `Ingredient` i ON ri.ingredient_name = i.name WHERE ri.recipe_id = ?", req.params.recipe_id, 
+      function(error, results, fields) {
+        if (error) throw error;
+        res.json(results);
+      }
+    );
+  });
+
+/*
+ * Route for Rating
+ */
+
+app.route('/avg_rating/:recipe_id')
+  .get(function(req, res, next) {
+    connection.query(
+      "SELECT AVG(score) as 'avg' FROM `Rating` WHERE recipe_id = ?", req.params.recipe_id, 
+      function(error, results, fields) {
+        if (error) throw error;
+        res.json(results);
+      }
+    );
+  });
+
+/*
  * Calls the stored procedure checkpassword() 
  */
 app.route('/check_password')
-.get(function(req, res, next) {
+.post(function(req, res, next) {
+  console.log(req.body)
+  const obj = JSON.parse(req.body.body)
+  
+  //console.log(obj.input_password)
+  const values_string = `"${obj.input_password}", "${obj.username}"`
+
   connection.query(
-    "SET @result = 0; CALL checkpassword(?, ? @result); SELECT @result;", req.params.input_password, req.params.username,
+    `CALL checkpassword(${values_string});`,
     function(error, results, fields) {
       if (error) throw error;
       res.json(results);
