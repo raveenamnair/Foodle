@@ -11,6 +11,7 @@ export default function ExpandRecipe() {
     const [rating, setRating] = useState("");
     const [currUsername, setCurrUsername] = useState("");
 
+    // TODO CHANGE
     // const selectedRecipeId = useLocation().state.recipe_id;
     const selectedRecipeId = 1;
 
@@ -43,7 +44,9 @@ export default function ExpandRecipe() {
             .catch(error => console.error(`Error: ${error}`));
     }
     const getCurrentUser = () => {
-        setCurrUsername(sessionStorage.getItem('username'));
+        // TODO CHANGE
+        // setCurrUsername(sessionStorage.getItem('username'));
+        setCurrUsername("BeatriceTest")
     }
 
     // Helper functions
@@ -88,12 +91,13 @@ export default function ExpandRecipe() {
         }
     }
     const summaryRating = () => {
-        if (avgRating != "") {
-            if (avgRating == 0) {
+        if (avgRating != null) {
+            if (avgRating.avg == null) {
                 return (
                     <span>No Ratings</span>
                 )
             } else {
+                console.log(avgRating)
                 return (
                     <><div>Average Rating</div><div>{(avgRating.avg).toFixed(1)} / 10</div></>
                 )
@@ -101,7 +105,7 @@ export default function ExpandRecipe() {
         }
     }
     const allowRating = () => {
-        if (currUsername != null) {
+        if (currUsername != null && currUsername != recipeData.author) {
             return (
                 <>
                 <span>Post Rating</span>
@@ -135,7 +139,7 @@ export default function ExpandRecipe() {
     }
 
     // Button handlers
-    const handleSubmitRating = async () => {
+    const handleSubmitRating = () => {
         if (rating < 1 || rating > 10) {
             alert("Please rate between 1 and 10")
             return
@@ -147,24 +151,28 @@ export default function ExpandRecipe() {
             score: rating
         }
 
-        await axios.post('/rating', {body:JSON.stringify(data)})
+        axios.post('/rating', {body:JSON.stringify(data)})
         .then(function (response) {
             alert("Thank you for rating the recipe!");
             window.location.reload(false);
             console.log(response);
         })
         .catch(function (error) {
-            alert("Please try rating again later");
+            if (error.response.data.error.errno == 1062) {
+                alert("You've already rated this recipe")
+            } else {
+                alert("Please try rating again later")
+            }
             console.log(error);
-        });
+        })
         
     }
 
     useEffect(() => {
-        getCurrentUser();
-        getSelectedRecipeData();
-        getRecipeIngredients();
-        getAverageRating();
+        getCurrentUser()
+        getSelectedRecipeData()
+        getRecipeIngredients()
+        getAverageRating()
     }, []);
 
 

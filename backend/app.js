@@ -74,7 +74,7 @@ app.route('/recipe/:recipe_id')
     connection.query(
       "SELECT * FROM `Recipe` WHERE recipe_id = ?", req.params.recipe_id, 
       function(error, results, fields) {
-        if (error) throw error;
+        if (error) res.status(400).json({error: err});
         res.json(results);
       }
     );
@@ -89,7 +89,7 @@ app.route('/recipe_ingredients/:recipe_id')
     connection.query(
       "SELECT * FROM `Recipe_Ingredients` ri JOIN `Ingredient` i ON ri.ingredient_name = i.name WHERE ri.recipe_id = ?", req.params.recipe_id, 
       function(error, results, fields) {
-        if (error) throw error;
+        if (error) res.status(400).json({error: err});
         res.json(results);
       }
     );
@@ -100,28 +100,78 @@ app.route('/recipe_ingredients/:recipe_id')
  */
 app.route('/avg_rating/:recipe_id')
   .get(function(req, res, next) {
-    connection.query(
-      "SELECT AVG(score) as 'avg' FROM `Rating` WHERE recipe_id = ?", req.params.recipe_id, 
-      function(error, results, fields) {
-        if (error) throw error;
-        res.json(results);
+    connection.query("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED", function(err, results, response) {
+      if (err) {
+        console.error(err);
+        res.status(500).json({error: err});
       }
-    );
+  
+      connection.beginTransaction(function(err, results, response) {
+        if (err) {
+          console.error(err);
+          res.status(500).json({error: err});
+        }
+  
+        connection.query("SELECT AVG(score) as avg FROM Rating WHERE recipe_id = ?", req.params.recipe_id,
+          function(err, results, response) {
+            if (err) {
+              console.error(err)
+              connection.rollback();
+              res.status(400).json({error: err})
+            }
+            
+            connection.commit(function(err, results, response)  {
+              if (err) {
+                console.error(err)
+                res.status(500).json({error: err})
+              }
+  
+              res.json(results);
+            });
+          });
+  
+      });
+    });
   });
 
 /**
  * POST a new rating for a specific recipe into the Rating table
  */
- app.post('/rating', express.json(), function (req, res) {
+app.route('/rating', express.json()).post(function(req, res, next) {
   const obj = JSON.parse(req.body.body)
-  const values_string = `("${obj.username}", "${obj.recipe_id}", "${obj.score}")`
-  connection.query(
-    `INSERT INTO Rating VALUES ${values_string}`,
-    function(err, data, response) {
-      if (error) throw error;
-      res.json(results);
+  const values_string = `("${obj.username}", ${obj.recipe_id}, ${obj.score})`
+  connection.query("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED", function(err, results, response) {
+    if (err) {
+      console.error(err);
+      res.status(500).json({error: err});
     }
-  );
+
+    connection.beginTransaction(function(err, results, response) {
+      if (err) {
+        console.error(err);
+        res.status(500).json({error: err});
+      }
+
+      connection.query(`INSERT INTO Rating(username, recipe_id, score) VALUES ${values_string}`,
+        function(err, results, response) {
+          if (err) {
+            console.error(err)
+            connection.rollback();
+            res.status(400).json({error: err})
+          }
+          
+          connection.commit(function(err, results, response)  {
+            if (err) {
+              console.error(err)
+              res.status(500).json({error: err})
+            }
+
+            res.json(results);
+          });
+        });
+
+    });
+  });
 });
 
 /*
