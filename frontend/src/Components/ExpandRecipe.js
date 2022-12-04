@@ -1,4 +1,4 @@
-import {useLocation} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import {useEffect, useState } from "react";
 import axios from 'axios';
 
@@ -10,6 +10,7 @@ export default function ExpandRecipe() {
     const [avgRating, setAvgRating] = useState('');
     const [rating, setRating] = useState("");
     const [currUsername, setCurrUsername] = useState("");
+    let navigate = useNavigate();
 
     // TODO CHANGE
     // const selectedRecipeId = useLocation().state.recipe_id;
@@ -97,7 +98,6 @@ export default function ExpandRecipe() {
                     <span>No Ratings</span>
                 )
             } else {
-                console.log(avgRating)
                 return (
                     <><div>Average Rating</div><div>{(avgRating.avg).toFixed(1)} / 10</div></>
                 )
@@ -127,7 +127,7 @@ export default function ExpandRecipe() {
                 <>
                 <div id="recipeButtons">
                     <button>Edit Recipe</button>
-                    <button>Delete Recipe</button>
+                    <button onClick={handleDelete}>Delete Recipe</button>
                 </div>
                 </>
             )
@@ -153,8 +153,8 @@ export default function ExpandRecipe() {
 
         axios.post('/rating', {body:JSON.stringify(data)})
         .then(function (response) {
-            alert("Thank you for rating the recipe!");
-            window.location.reload(false);
+            alert("Thank you for rating the recipe!")
+            window.location.reload(false)
             console.log(response);
         })
         .catch(function (error) {
@@ -164,8 +164,24 @@ export default function ExpandRecipe() {
                 alert("Please try rating again later")
             }
             console.log(error);
+        })   
+    }
+
+    const handleDelete = () => {
+        const data = {
+            username: currUsername,
+            recipe_id: selectedRecipeId
+        }
+
+        axios.post('/recipe/delete', {body:JSON.stringify(data)})
+        .then(function (response) {
+            navigate('/')
+            console.log(response)
         })
-        
+        .catch(function (error) {
+            alert("Please try rating again later")
+            console.log(error)
+        })   
     }
 
     useEffect(() => {

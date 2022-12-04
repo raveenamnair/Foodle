@@ -74,11 +74,30 @@ app.route('/recipe/:recipe_id')
     connection.query(
       "SELECT * FROM `Recipe` WHERE recipe_id = ?", req.params.recipe_id, 
       function(error, results, fields) {
-        if (error) res.status(400).json({error: err});
+        if (error) {
+          res.status(400).json({error: err});
+          return;
+        }
         res.json(results);
       }
     );
   });
+
+app.route('/recipe/delete', express.json()).post(function(req, res, next) {
+  const obj = JSON.parse(req.body.body)
+  const values_string = `${obj.recipe_id}, "${obj.username}"`
+  connection.query(
+    `CALL deleteRecipe(${values_string})`, function(err, results, response) {
+      if (err) {
+        console.error(err);
+        res.status(400).json({error: err});
+        return;
+      }
+
+      res.json(results)
+    }
+  )
+})
   
 /*
  * Route for Recipe_Ingredients
@@ -89,7 +108,11 @@ app.route('/recipe_ingredients/:recipe_id')
     connection.query(
       "SELECT * FROM `Recipe_Ingredients` ri JOIN `Ingredient` i ON ri.ingredient_name = i.name WHERE ri.recipe_id = ?", req.params.recipe_id, 
       function(error, results, fields) {
-        if (error) res.status(400).json({error: err});
+        if (error) {
+          res.status(400).json({error: err});
+          return;
+        }
+
         res.json(results);
       }
     );
@@ -104,12 +127,14 @@ app.route('/avg_rating/:recipe_id')
       if (err) {
         console.error(err);
         res.status(500).json({error: err});
+        return;
       }
   
       connection.beginTransaction(function(err, results, response) {
         if (err) {
           console.error(err);
           res.status(500).json({error: err});
+          return;
         }
   
         connection.query("SELECT AVG(score) as avg FROM Rating WHERE recipe_id = ?", req.params.recipe_id,
@@ -118,12 +143,14 @@ app.route('/avg_rating/:recipe_id')
               console.error(err)
               connection.rollback();
               res.status(400).json({error: err})
+              return;
             }
             
-            connection.commit(function(err, results, response)  {
+            connection.commit((err) => {
               if (err) {
                 console.error(err)
                 res.status(500).json({error: err})
+                return;
               }
   
               res.json(results);
@@ -144,12 +171,14 @@ app.route('/rating', express.json()).post(function(req, res, next) {
     if (err) {
       console.error(err);
       res.status(500).json({error: err});
+      return;
     }
 
     connection.beginTransaction(function(err, results, response) {
       if (err) {
         console.error(err);
         res.status(500).json({error: err});
+        return;
       }
 
       connection.query(`INSERT INTO Rating(username, recipe_id, score) VALUES ${values_string}`,
@@ -158,18 +187,19 @@ app.route('/rating', express.json()).post(function(req, res, next) {
             console.error(err)
             connection.rollback();
             res.status(400).json({error: err})
+            return;
           }
           
-          connection.commit(function(err, results, response)  {
+          connection.commit((err) => {
             if (err) {
               console.error(err)
               res.status(500).json({error: err})
+              return;
             }
 
             res.json(results);
           });
         });
-
     });
   });
 });
