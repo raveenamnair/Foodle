@@ -16,6 +16,7 @@ import EditRecipe from './Components/EditRecipe.js';
 import Login from './Components/Login';
 import CreateAccount from './Components/CreateAccount';
 import ExpandRecipe from './Components/ExpandRecipe';
+import Reports from './Components/Reports';
 import NavBar from './Components/Navbar';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -35,6 +36,7 @@ root.render(
         <Route path="/createAccount" element={<CreateAccount />} />
         <Route path="/expandRecipe" element={<ExpandRecipe />} />
         {/* <Route path="/navbar" element={<NavBar />} /> */}
+      <Route path='/reports' element={<Reports />} />
     </Routes>
   </BrowserRouter>
 );

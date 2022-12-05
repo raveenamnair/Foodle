@@ -5,49 +5,50 @@ import axios from 'axios';
 //https://stackoverflow.com/questions/52238637/react-router-how-to-pass-data-between-pages-in-react
 
 export default function ExpandRecipe() {
-    const [recipeData, setRecipeData] = useState('');
-    const [ingredients, setIngredients] = useState('');
-    const [avgRating, setAvgRating] = useState('');
-    const [rating, setRating] = useState("");
-    const [currUsername, setCurrUsername] = useState("");
-    let navigate = useNavigate();
+    const [recipeData, setRecipeData] = useState('')
+    const [ingredients, setIngredients] = useState('')
+    const [avgRating, setAvgRating] = useState('')
+    const [rating, setRating] = useState("")
+    const [currUsername, setCurrUsername] = useState("")
+    let navigate = useNavigate()
 
     // TODO CHANGE
-    // const selectedRecipeId = useLocation().state.recipe_id;
-    const selectedRecipeId = 1;
+    // const selectedRecipeId = useLocation().state.recipe_id
+    const selectedRecipeId = 1
 
     // Functions to get recipe information
     const getSelectedRecipeData = () => {
         axios.get(`/recipe/${selectedRecipeId}`)
             .then(response => {
-                const responseRecipe = response.data[0];
-                setRecipeData(responseRecipe);
+                const responseRecipe = response.data[0]
+                setRecipeData(responseRecipe)
                 console.log(response)
             })
-            .catch(error => console.error(`Error: ${error}`));
+            .catch(error => console.error(`Error: ${error}`))
     }
     const getRecipeIngredients = () => {
         axios.get(`/recipe_ingredients/${selectedRecipeId}`)
             .then(response => {
-                const responseIngredients = response.data;
-                setIngredients(responseIngredients);
+                const responseIngredients = response.data
+                setIngredients(responseIngredients)
                 console.log(response)
             })
-            .catch(error => console.error(`Error: ${error}`));
+            .catch(error => console.error(`Error: ${error}`))
     }
     const getAverageRating = () => {
         axios.get(`/avg_rating/${selectedRecipeId}`)
             .then(response => {
                 const responseAvg = response.data[0];
-                setAvgRating(responseAvg);
+                setAvgRating(responseAvg)
                 console.log(response)
             })
-            .catch(error => console.error(`Error: ${error}`));
+            .catch(error => console.error(`Error: ${error}`))
     }
     const getCurrentUser = () => {
         // TODO CHANGE
-        // setCurrUsername(sessionStorage.getItem('username'));
-        setCurrUsername("BeatriceTest")
+        // let username = sessionStorage.get('username');
+        let username = "testing"
+        setCurrUsername(username)
     }
 
     // Helper functions
@@ -125,7 +126,7 @@ export default function ExpandRecipe() {
         if (currUsername == recipeData.author) {
             return (
                 <>
-                <div id="recipeButtons">
+                <div className="titleButtons">
                     <button>Edit Recipe</button>
                     <button onClick={handleDelete}>Delete Recipe</button>
                 </div>
@@ -186,6 +187,9 @@ export default function ExpandRecipe() {
 
     useEffect(() => {
         getCurrentUser()
+    }, []);
+
+    useEffect(() => {
         getSelectedRecipeData()
         getRecipeIngredients()
         getAverageRating()
@@ -196,7 +200,7 @@ export default function ExpandRecipe() {
         <main>
             <div className='pageContent'>
                 <div id='recipeHeader'>
-                    <div id='recipeTitle'>
+                    <div className='titleHeader'>
                         <h1>{recipeData.name}</h1> 
                         {editDeleteRecipe()}
                     </div>

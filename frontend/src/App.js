@@ -14,6 +14,7 @@ function App() {
               <Link to="/exploreRecipes">Explore Recipes</Link><br/>
               {sessionStorage.getItem('username') && <Link to="/profile">Profile</Link>}
               {!sessionStorage.getItem('username') && <Link to="/login">Login</Link>} <br/>
+              <Link to="/reports">Reports</Link><br />
           </nav>
       </div>
   );
