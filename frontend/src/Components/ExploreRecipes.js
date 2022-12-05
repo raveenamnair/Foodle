@@ -1,32 +1,54 @@
+//import React from "react";
 import {useNavigate} from 'react-router-dom';
 import {useEffect, useState } from "react";
 import axios from 'axios';
 
 export default function ExploreRecipes() {
-    const [recipeData, setRecipeData] = useState('');
-    const [ingredients, setIngredients] = useState('');
+    let [recipeData, setRecipeData] = useState('');
+    let [ingredients, setIngredients] = useState('');
 
     let navigate = useNavigate();
-    let selectedRecipeId = 0;
+    var selectedRecipeId = 1;
 
     // Functions to get recipe information
-    let getSelectedRecipeData = () => {
-        axios.get(`/recipe/${selectedRecipeId}`)
+    let getRecipeList = () => {
+        axios.get(`/list_recipes/${1}`)
             .then(response => {
-                const responseRecipe = response.data[0];
+                console.log("incoming");
+                console.log(response);
+                const responseRecipe = response.data;
                 setRecipeData(responseRecipe);
-                console.log(response)
+                //console.log(response)
             })
             .catch(error => console.error(`Error: ${error}`));
     }
+
     let getRecipeIngredients = () => {
         axios.get(`/recipe_ingredients/${selectedRecipeId}`)
             .then(response => {
                 const responseIngredients = response.data;
                 setIngredients(responseIngredients);
-                console.log(response)
+                //console.log(response)
             })
             .catch(error => console.error(`Error: ${error}`));
+    }
+    const htmlUnitType = (unit_type) => {
+        if (unit_type == "count") {
+            return ""
+        } else {
+            return unit_type
+        }
+    }
+    const ingredientList = () => {
+        if (ingredients != "") {
+            return (
+                <ul>
+                    {ingredients.map((ingredient, index) => (
+                        <li key={index}>{ingredient.amount * ingredient.unit} {htmlUnitType(ingredient.unit_type)} {(ingredient.ingredient_name).toLowerCase()}</li>
+                    ))}
+                </ul>
+            )
+        }
     }
 
     let getRecipes = () => {
@@ -53,7 +75,7 @@ export default function ExploreRecipes() {
                     </div>
                     <div className='recipeIngredients'>
                         <h3>Ingredients:</h3>
-                        
+                        {ingredientList()}
                     </div>
                     <div className='recipeContent'>
                         {recipeData.content}
@@ -70,13 +92,13 @@ export default function ExploreRecipes() {
     }
 
     let getRecipe = () => {
-        if (true) {
-            selectedRecipeId++;
+        if (true) {        
+            //selectedRecipeId = selectedRecipeId + 1;
+            console.log("Getting recipes");  
             return (
                 <>
-                <div id="recipeButtons">
-                    <button>Edit Recipe</button>
-                    <button onClick={getSelectedRecipeData}>Delete Recipe</button>
+                <div id="recipeButtons">               
+                    <button onClick={getRecipeList}>Get Recipes</button>
                 </div>
                 </>
             )
@@ -108,15 +130,21 @@ export default function ExploreRecipes() {
         }
     }
 
+    useEffect(() => {
+        getRecipeList()
+        getRecipeIngredients()       
+    }, []);
+
     return (
         <main>
         <h1>Explore Recipes</h1>
         <div className='pageContent'>
             {getRecipe()}
+
             <div id='recipeChain'>
-            {getRecipes()}
-                       
+                {getRecipes()}                       
             </div>
+
             <div id='junk'>
                 <div id='postRating'>
                     

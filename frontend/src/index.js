@@ -7,7 +7,7 @@ import {
     Route,
 } from "react-router-dom";
 import axios from 'axios';
-import ExploreRecipes from "./Components/ExploreRecipes.js";
+import ExploreRecipes from "./Components/ExploreRecipes";
 import Home from "./Components/Home.js";
 import Profile from "./Components/Profile.js";
 import AddRecipe from './Components/AddRecipe.js';
