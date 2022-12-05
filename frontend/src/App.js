@@ -9,7 +9,7 @@ function App() {
           <nav>
               <Link to="/">Home</Link><br/>
               <Link to="/exploreRecipes">Explore Recipes</Link><br/>
-              <Link to="/profile">Account</Link><br/>
+              <Link to="/profile">Profile</Link><br/>
           </nav>
       </div>
   );
