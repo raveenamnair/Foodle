@@ -7,10 +7,10 @@ export default function ExploreRecipes() {
     const [ingredients, setIngredients] = useState('');
 
     let navigate = useNavigate();
-    let selectedRecipeId = 1;
+    let selectedRecipeId = 0;
 
     // Functions to get recipe information
-    const getSelectedRecipeData = () => {
+    let getSelectedRecipeData = () => {
         axios.get(`/recipe/${selectedRecipeId}`)
             .then(response => {
                 const responseRecipe = response.data[0];
@@ -19,7 +19,7 @@ export default function ExploreRecipes() {
             })
             .catch(error => console.error(`Error: ${error}`));
     }
-    const getRecipeIngredients = () => {
+    let getRecipeIngredients = () => {
         axios.get(`/recipe_ingredients/${selectedRecipeId}`)
             .then(response => {
                 const responseIngredients = response.data;
@@ -29,8 +29,47 @@ export default function ExploreRecipes() {
             .catch(error => console.error(`Error: ${error}`));
     }
 
-    const getRecipes = () => {
+    let getRecipes = () => {
         if (true) {
+            return (
+                <>
+                <div id='recipeBlock'>
+                    <div id='recipeTitle'>
+                        <h1>{recipeData.name}</h1> 
+                        
+                    </div>
+                    <div className='headerDetails'>
+                        <span>By: <span className='lightText'>{upperCaseFirstLetters(recipeData.author)}</span></span>
+                        <span>Servings: <span className='lightText'>{recipeData.servings}</span></span>
+                        <div>Duration: 
+                            <span className='lightText'> {getHours(recipeData.duration)}</span> hrs 
+                            <span className='lightText'> {getMinutes(recipeData.duration)}</span> mins 
+                            <span className='lightText'> {getSeconds(recipeData.duration)}</span> secs
+                        </div>
+                        <span>Cuisine: <span className='lightText'>{upperCaseFirstLetters(recipeData.cuisine)}</span></span>
+                        <span>Category: <span className='lightText'>{recipeData.category}</span></span>
+                        <span>Dietary Restriction: <span className='lightText'>{recipeData.dietary_restriction}</span></span>
+                    </div>
+                    <div className='recipeIngredients'>
+                        <h3>Ingredients:</h3>
+                        
+                    </div>
+                    <div className='recipeContent'>
+                        {recipeData.content}
+                    </div>
+                </div>
+                </>
+            )
+        } else {
+            return (
+                <></>
+            )
+        }
+    }
+
+    let getRecipe = () => {
+        if (true) {
+            selectedRecipeId++;
             return (
                 <>
                 <div id="recipeButtons">
@@ -71,32 +110,11 @@ export default function ExploreRecipes() {
         <main>
         <h1>Explore Recipes</h1>
         <div className='pageContent'>
-            <div id='recipeBlock'>
-                <div id='recipeTitle'>
-                    <h1>{recipeData.name}</h1> 
-                    {getRecipes()}
-                </div>
-                <div className='headerDetails'>
-                    <span>By: <span className='lightText'>{upperCaseFirstLetters(recipeData.author)}</span></span>
-                    <span>Servings: <span className='lightText'>{recipeData.servings}</span></span>
-                    <div>Duration: 
-                        <span className='lightText'> {getHours(recipeData.duration)}</span> hrs 
-                        <span className='lightText'> {getMinutes(recipeData.duration)}</span> mins 
-                        <span className='lightText'> {getSeconds(recipeData.duration)}</span> secs
-                    </div>
-                    <span>Cuisine: <span className='lightText'>{upperCaseFirstLetters(recipeData.cuisine)}</span></span>
-                    <span>Category: <span className='lightText'>{recipeData.category}</span></span>
-                    <span>Dietary Restriction: <span className='lightText'>{recipeData.dietary_restriction}</span></span>
-                </div>
-                <div className='recipeIngredients'>
-                    <h3>Ingredients:</h3>
-                    
-                </div>
-                <div className='recipeContent'>
-                    {recipeData.content}
-                </div>
+            {getRecipe()}
+            <div id='recipeChain'>
+            {getRecipes()}
+                       
             </div>
-            
             <div id='junk'>
                 <div id='postRating'>
                     
