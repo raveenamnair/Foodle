@@ -1,4 +1,6 @@
 import axios from 'axios';
+import MyImage from './LandingPageImg.png';
+import React from 'react';
 
 
 export default function Home() {
@@ -37,8 +39,9 @@ export default function Home() {
 
     return (
         <main>
-            <h1>Foodle</h1>
+            <h1>Home</h1>
             <p>{sessionStorage.getItem('username')}</p>
+            <img src={MyImage}  width={650} height={350} alt="cookingmama" />
         </main>
     );
 }
