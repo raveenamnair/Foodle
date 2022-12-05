@@ -10,6 +10,7 @@ function App() {
               <Link to="/">Home</Link><br/>
               <Link to="/exploreRecipes">Explore Recipes</Link><br/>
               <Link to="/profile">Account</Link><br/>
+              <Link to="/reports">Reports</Link><br />
           </nav>
       </div>
   );
