@@ -34,6 +34,7 @@ export default function ExploreRecipes() {
             return (
                 <>
                 <div id='recipeBlock'>
+                
                     <div id='recipeTitle'>
                         <h1>{recipeData.name}</h1> 
                         
@@ -57,6 +58,7 @@ export default function ExploreRecipes() {
                     <div className='recipeContent'>
                         {recipeData.content}
                     </div>
+                    
                 </div>
                 </>
             )

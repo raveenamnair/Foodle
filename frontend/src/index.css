@@ -151,3 +151,6 @@ button:hover {
   margin-block: 1%;
   padding-inline: 30px;
 }
+#recipeBlock:hover {
+  filter: contrast(85%) sepia(10%);
+}
