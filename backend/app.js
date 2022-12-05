@@ -65,6 +65,23 @@ app.post('/user', express.json(), function (req, res) {
   );
 });
 
+/**
+ * GET user statics with stored procedure
+ */
+app.route('/user/stats/:username').get(function(req, res, next) {
+  connection.query(
+    `CALL getUserStat(${req.params.username})`, function(err, results, response) {
+      if (err) {
+        console.error(err);
+        res.status(400).json({error: err});
+        return;
+      }
+
+      res.json(results)
+    }
+  )
+})
+
 /*
  * Route for Recipe
  */
