@@ -17,7 +17,6 @@ import Login from './Components/Login';
 import CreateAccount from './Components/CreateAccount';
 import ExpandRecipe from './Components/ExpandRecipe';
 import Reports from './Components/Reports';
-import NavBar from './Components/Navbar';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 axios.defaults.baseURL = process.env.REACT_APP_BE_URL;
@@ -35,7 +34,6 @@ root.render(
         <Route path="/login" element={<Login />} />
         <Route path="/createAccount" element={<CreateAccount />} />
         <Route path="/expandRecipe" element={<ExpandRecipe />} />
-        {/* <Route path="/navbar" element={<NavBar />} /> */}
       <Route path='/reports' element={<Reports />} />
     </Routes>
   </BrowserRouter>

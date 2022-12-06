@@ -1,11 +1,14 @@
 import React from "react";
 import { useState } from "react";
 import axios from 'axios';
+import Recipe from "./Recipe";
 
 export default function Reports() {
     const [value, setValue] = useState("")
     const [ingredient, setIngredient] = useState("")
-    const [reportData, setReportData] = useState([])
+    const [reportData, setReportData] = useState(null)
+    const [loading, setLoading] = useState(true)
+
     const options = [
         { label: 'Category', value: null },
         { label: 'Breakfast', value: 'Breakfast' },
@@ -22,27 +25,59 @@ export default function Reports() {
 
     const handleSubmit = () => {
         getIngredientDataReport()
-        displayReport()
+        //displayReport()
     }
 
-    const getIngredientDataReport = () => {
+    React.useEffect(() => {
+        const baseURL = 'http://localhost:9000/filter/rating_category'
+        if (reportData == null) {
+            axios.get(`${baseURL}/${ingredient}`)
+            .then((response) => setReportData(response.data))
+            .catch((error) => console.log(error.message))
+            console.log(reportData)
+
+        }
+        
+    }, [reportData]);
+
+    const getIngredientDataReport = async () => {
         const baseURL = 'http://localhost:9000/filter/rating_category'
         
-        axios.get(`${baseURL}/${ingredient}`)
+        await axios.get(`${baseURL}/${ingredient}`)
         .then(function (response) {
             console.log(response.data);
+            console.log('35')
             setReportData(response.data)
+            console.log('37')
+            setLoading(false)
         })
         .catch(function (error) {
             console.log(error);
         });
+
+        console.log("41")
+        console.log(reportData)
     }
 
     const displayReport = () => {
+        console.log(reportData)
+        const contactElements = [];
+
+        //return reportData[0].name
+        reportData.forEach(item => {
+            contactElements.push(
+                <Recipe
+                recipeId={item.recipe_id}
+                recipeName={item.name}
+                author={item.author}
+                durations={item.durations}
+                servings={item.servings}
+                />
+            )
+        });
+
         
-        reportData.map((item,index)=>{
-            return <li key={index}>{item}</li>
-        })
+        return  contactElements;
     }
 
 
@@ -74,7 +109,9 @@ export default function Reports() {
             </ul> */}
 
             <div>
-            { reportData.length === 0 ? <div>No Results</div> : displayReport() }
+            {
+                loading?'':displayReport()
+            }
             </div>
 
 
