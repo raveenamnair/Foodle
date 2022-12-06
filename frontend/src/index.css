@@ -131,3 +131,18 @@ button:hover {
   grid-template-columns: 65% 25%;
   gap: 10px;
 }
+
+.filter_container {
+  background-color: #F5F5F5;
+  margin: auto;
+  width: 75%;
+  padding: 10px;
+}
+
+.filter_buttons {
+  margin: auto;
+  width: 75%;
+  padding: 10px;
+  text-align: center;
+
+}
