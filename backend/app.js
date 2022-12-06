@@ -241,6 +241,57 @@ app.route('/check_password')
   );
 });
 
+/*
+ *
+ */
+// app.route('/filter/rating_category')
+// .get(function(req, res, next) {
+//   console.log(req.body)
+//   const obj = JSON.parse(req.body.body)
+
+//   connection.query(
+//     `SELECT * FROM Recipe WHERE Recipe.recipe_id = (SELECT DISTINCT recipe_id FROM Recipe_Ingredients WHERE recipe_id NOT IN (SELECT recipe_id from Recipe_Ingredients WHERE ingredient_name = '${obj.ingredient_name}'));`
+//   ,
+//   function(err, results, response) {
+//     if (err) {
+//       console.error(err);
+//       res.status(400).json({error: err});
+//       return;
+//     }
+//     res.json(results);
+
+//   });
+// });
+
+app.route('/filter/rating_category/:ingredient')
+  .get(function(req, res, next) {
+    console.log("I AM HERE")
+    console.log(req.params.ingredient)
+    
+    // connection.query(
+    //   `SELECT * FROM Recipe WHERE Recipe.recipe_id = (SELECT DISTINCT recipe_id FROM Recipe_Ingredients WHERE recipe_id NOT IN (SELECT recipe_id from Recipe_Ingredients WHERE ingredient_name = ?));`, req.params.ingredient,
+    //   function(error, results, fields) {
+    //     if (error) {
+    //       res.status(400).json({error: error});
+    //       return;
+    //     }
+    //     res.json(results);
+    //   }
+    // );
+    connection.query(
+      `select * from Recipe, (select distinct recipe_id from Recipe_Ingredients where recipe_id not in (select recipe_id from Recipe_Ingredients where ingredient_name = ?)) as t where t.recipe_id = Recipe.recipe_id;`, req.params.ingredient,
+      function(error, results, fields) {
+        if (error) {
+          res.status(400).json({error: error});
+          return;
+        }
+        res.json(results);
+      }
+    );
+  });
+
+
+// select * from Recipe where Recipe.recipe_id = (select distinct recipe_id from Recipe_Ingredients where recipe_id not in (select recipe_id from Recipe_Ingredients where ingredient_name = 'Salt'));
 /**
  * Just to check status of the connection
  */
