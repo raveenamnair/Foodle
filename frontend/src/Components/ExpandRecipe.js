@@ -3,9 +3,6 @@ import React, { useEffect, useState } from "react";
 import axios from 'axios';
 import { useParams } from "react-router-dom";
 
-
-//https://stackoverflow.com/questions/52238637/react-router-how-to-pass-data-between-pages-in-react
-
 export default function ExpandRecipe() {
     const [recipeData, setRecipeData] = useState('')
     const [ingredients, setIngredients] = useState('')
@@ -14,8 +11,6 @@ export default function ExpandRecipe() {
     const [currUsername, setCurrUsername] = useState("")
     let navigate = useNavigate()
 
-    // TODO CHANGE
-    // const selectedRecipeId = useLocation().state.recipe_id
     const { recipe_id } = useParams();
     const selectedRecipeId =  recipe_id
 
@@ -48,9 +43,7 @@ export default function ExpandRecipe() {
             .catch(error => console.error(`Error: ${error}`))
     }
     const getCurrentUser = () => {
-        // TODO CHANGE
-        // let username = sessionStorage.get('username');
-        let username = "testing"
+        let username = sessionStorage.get('username');
         setCurrUsername(username)
     }
 
