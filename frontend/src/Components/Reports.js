@@ -23,9 +23,13 @@ export default function Reports() {
         setValue(event.target.value);
     };
 
-    const handleSubmit = () => {
+    const handleSubmitRating = () => {
         getIngredientDataReport()
         //displayReport()
+    }
+    
+    const handleSubmitPrice = () => {
+        getPriceDataReport()
     }
 
     React.useEffect(() => {
@@ -54,13 +58,26 @@ export default function Reports() {
         .catch(function (error) {
             console.log(error);
         });
-
-        console.log("41")
         console.log(reportData)
     }
 
-    const displayReport = () => {
+
+    const getPriceDataReport = async () => {
+        await axios.get(`http://localhost:9000/filter/price`)
+        .then(function (response) {
+            console.log("response data plz work", response.data);
+            setReportData(response.data)
+            setLoading(false)
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
         console.log(reportData)
+    }
+
+
+    const displayReport = () => {
+        console.log("report data:", reportData)
         const contactElements = [];
 
         //return reportData[0].name
@@ -90,13 +107,13 @@ export default function Reports() {
             <h1>Reports</h1>
             <div className="filter_buttons">
                 <p>Filter Recipes That Don't Contain This Ingredient</p>
-                <button onClick={handleSubmit}>Filter by rating and category</button>
+                <button onClick={handleSubmitRating}>Filter by Rating and Category</button>
+                <button onClick={handleSubmitPrice}>Filter by Price Low to High</button>
                 <span> </span>
                 <label>Ingredient Name: </label> 
                 <input type="text" value={ingredient} onChange={(e) => setIngredient(e.target.value)} />
                 <br></br>
             </div>
-            
             <div>
             {
                 loading?'':displayReport()

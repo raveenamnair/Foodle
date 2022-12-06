@@ -38,8 +38,31 @@
   }
 }
 
-nav {
-  display: flex;
-  flex-direction: horizontal;
-  color: #61dafb;
+.mainApp {
+  margin-bottom: 20px;
+}
+
+.customul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.customli {
+  float: left;
+}
+
+
+.customli a {
+  color: black;
+}
+
+.customli a:hover {
+  background-color: green;
+}
+
+a {
+  display: block;
+  padding: 8px;
+  background-color: #dddddd;
 }

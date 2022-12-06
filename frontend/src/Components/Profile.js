@@ -13,8 +13,7 @@ export default function Profile() {
     // Functions to run at the start of the page
     const getCurrentUser = () => {
         // TODO CHANGE
-        // let username = sessionStorage.getItem('username')
-        let username = "testing"
+        let username = sessionStorage.getItem('username')
         setCurrUsername(username)
         tempCurrUsername = username
     }
