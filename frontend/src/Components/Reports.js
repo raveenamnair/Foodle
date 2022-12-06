@@ -1,9 +1,11 @@
 import React from "react";
 import { useState } from "react";
+import axios from 'axios';
 
 export default function Reports() {
     const [value, setValue] = useState("")
-    const [rating, setRating] = useState("")
+    const [ingredient, setIngredient] = useState("")
+    const [reportData, setReportData] = useState([])
     const options = [
         { label: 'Category', value: null },
         { label: 'Breakfast', value: 'Breakfast' },
@@ -19,8 +21,31 @@ export default function Reports() {
     };
 
     const handleSubmit = () => {
-        alert(rating  + " " + value)
+        getIngredientDataReport()
+        displayReport()
     }
+
+    const getIngredientDataReport = () => {
+        const baseURL = 'http://localhost:9000/filter/rating_category'
+        
+        axios.get(`${baseURL}/${ingredient}`)
+        .then(function (response) {
+            console.log(response.data);
+            setReportData(response.data)
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+    }
+
+    const displayReport = () => {
+        
+        reportData.map((item,index)=>{
+            return <li key={index}>{item}</li>
+        })
+    }
+
+
 
     return (
         <main>
@@ -28,16 +53,31 @@ export default function Reports() {
             <button onClick={handleSubmit}>Filter by rating and category</button>
             <span> </span>
 
-            <label>Category: </label> 
+            {/* <label>Category: </label> 
             <select value={value} onChange={handleChange}>
                 {options.map((option) => (
                     <option value={option.value}>{option.label}</option>
                 ))}
             </select>  
-            <span> </span>
+            <span> </span> */}
 
-            <label>Rating: </label> 
-            <input type="text" value={rating} onChange={(e) => setRating(e.target.value)} />
+            <label>Ingredient Name: </label> 
+            <input type="text" value={ingredient} onChange={(e) => setIngredient(e.target.value)} />
+        
+            {/* <ul>
+                { {if (reportData.length != 0) {
+                    reportData.map((item,index)=>{
+                        return <li key={index}>{item}</li>
+                    }) }}
+                }
+                
+            </ul> */}
+
+            <div>
+            { reportData.length === 0 ? <div>No Results</div> : displayReport() }
+            </div>
+
+
         </main>
     );
 }
