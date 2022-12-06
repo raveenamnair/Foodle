@@ -1,9 +1,9 @@
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-import React from 'react';
-
-
-
-const Recipe = ({recipeId, recipeName, author, durations, servings}) => {
+const Recipe = ({recipeId, recipeName, author, durations, servings, cuisine, category, dietary_restriction}) => {
+    let navigate = useNavigate();
+    const [click, setClick] = useState(false);
 
     const upperCaseFirstLetters = (word) => {
         if (word != null) {
@@ -23,16 +23,21 @@ const Recipe = ({recipeId, recipeName, author, durations, servings}) => {
     const getSeconds = (durationMinutes) => {
         if (durationMinutes != null) {
             return Math.trunc((durations - Math.trunc(durations)) * 60)
-        }
+        }  
     }
+
+    // useEffect((recipe_id) => {
+    //     expand(recipeId)
+    //   }, [click]); 
+    
+    const onClick = () => {
+        navigate(`/expandRecipe/${recipeId}`);
+    };
 
     return (
         <div>
-            {/* <p>{recipeName}</p>
-            <p>{author}</p>
-            <p>{durations}</p>
-            <p>{servings}</p> */} 
-            <div className='pageContent'>
+            
+            <div className='filter_container'>
                 <div id='recipeHeader'>
                     <div className='titleHeader'>
                         <h1>{recipeName}</h1> 
@@ -45,9 +50,15 @@ const Recipe = ({recipeId, recipeName, author, durations, servings}) => {
                             <span className='lightText'> {getMinutes(durations)}</span> mins 
                             <span className='lightText'> {getSeconds(durations)}</span> secs
                         </div>
+                        <span>Cuisine: <span className='lightText'>{upperCaseFirstLetters(cuisine)}</span></span>
+                        <span>Category: <span className='lightText'>{category}</span></span>
+                        <span>Dietary Restriction: <span className='lightText'>{dietary_restriction}</span></span>
+                
                     </div>
-                </div>
+                </div><br/>
+                <button onClick={onClick}>Expand</button>
             </div>
+            <br></br>
         </div>
     )
 }

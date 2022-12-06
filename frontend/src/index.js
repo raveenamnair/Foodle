@@ -33,7 +33,7 @@ root.render(
         <Route path="/editRecipe" element={<EditRecipe />} />
         <Route path="/login" element={<Login />} />
         <Route path="/createAccount" element={<CreateAccount />} />
-        <Route path="/expandRecipe" element={<ExpandRecipe />} />
+        <Route path="/expandRecipe/:recipe_id" element={<ExpandRecipe />} />
       <Route path='/reports' element={<Reports />} />
     </Routes>
   </BrowserRouter>

@@ -70,8 +70,11 @@ export default function Reports() {
                 recipeId={item.recipe_id}
                 recipeName={item.name}
                 author={item.author}
-                durations={item.durations}
+                durations={item.duration}
                 servings={item.servings}
+                cuisine={item.cuisine}
+                category={item.category}
+                dietary_restriction={item.dietary_restriction}
                 />
             )
         });
@@ -85,29 +88,15 @@ export default function Reports() {
     return (
         <main>
             <h1>Reports</h1>
-            <button onClick={handleSubmit}>Filter by rating and category</button>
-            <span> </span>
-
-            {/* <label>Category: </label> 
-            <select value={value} onChange={handleChange}>
-                {options.map((option) => (
-                    <option value={option.value}>{option.label}</option>
-                ))}
-            </select>  
-            <span> </span> */}
-
-            <label>Ingredient Name: </label> 
-            <input type="text" value={ingredient} onChange={(e) => setIngredient(e.target.value)} />
-        
-            {/* <ul>
-                { {if (reportData.length != 0) {
-                    reportData.map((item,index)=>{
-                        return <li key={index}>{item}</li>
-                    }) }}
-                }
-                
-            </ul> */}
-
+            <div className="filter_buttons">
+                <p>Filter Recipes That Don't Contain This Ingredient</p>
+                <button onClick={handleSubmit}>Filter by rating and category</button>
+                <span> </span>
+                <label>Ingredient Name: </label> 
+                <input type="text" value={ingredient} onChange={(e) => setIngredient(e.target.value)} />
+                <br></br>
+            </div>
+            
             <div>
             {
                 loading?'':displayReport()

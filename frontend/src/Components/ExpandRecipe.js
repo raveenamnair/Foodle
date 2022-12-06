@@ -1,6 +1,8 @@
 import {useNavigate} from 'react-router-dom';
 import React, { useEffect, useState } from "react";
 import axios from 'axios';
+import { useParams } from "react-router-dom";
+
 
 //https://stackoverflow.com/questions/52238637/react-router-how-to-pass-data-between-pages-in-react
 
@@ -14,7 +16,8 @@ export default function ExpandRecipe() {
 
     // TODO CHANGE
     // const selectedRecipeId = useLocation().state.recipe_id
-    const selectedRecipeId = 1
+    const { recipe_id } = useParams();
+    const selectedRecipeId =  recipe_id
 
     // Functions to get recipe information
     const getSelectedRecipeData = () => {
