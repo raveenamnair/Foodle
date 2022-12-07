@@ -16,6 +16,10 @@ h1 {
   color: #82B366;
 }
 
+h2, h3 {
+  color: #9acc7d;
+}
+
 label {
   font-weight:bold;
   color: #82B366;
@@ -145,4 +149,30 @@ button:hover {
   padding: 10px;
   text-align: center;
 
+}
+.recipeForm {
+  padding: 2%;
+  margin: auto;
+  display: table;
+}
+
+#recipeField {
+  display: inline-flex;
+  margin-block: 5%;
+  border-radius: 10px;
+}
+
+.createChunk {
+  display: inline-block;
+}
+table {
+  margin: auto;
+  border-radius: 10px;
+  background-color: #fdffeab3;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 2px 6px;
+  margin-block: 1%;
+  padding:5%;
+}
+td {
+  padding: 0 20px;
 }

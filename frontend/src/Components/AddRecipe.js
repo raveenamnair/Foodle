@@ -62,25 +62,74 @@ export default function AddRecipe() {
 
     return (
         <main>
-            <h1>Login</h1>
-            <div className="loginForm">
-                <form>
-                    <div>
-                    <label>
-                        Recipe Name:                                         
-                        <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
-                        </label>
-                    </div> <br/> <br/>
-                    <div>
-                        <label>Category:
-                            <input type="radio" value={name} onChange={(e) => setCategory(e.target.value)} />
-                        </label>
-                    </div> <br/> <br/>
-                </form>
-                <button class="button25" onClick={handleSubmit}>Login</button>
-                <br></br>
-                <p>Sample text</p> 
-                <button class="button25" onClick={""}>Sample Button</button>
+            <div className='pageContent'>
+            <h1>Create a recipe</h1>
+            <h2>Fill out the necessary information to upload your recipe</h2>
+                <div className="recipeContent">
+                    <form className="recipeForm">
+                        <table>
+                            <tr>
+                                <td>
+                                <label>
+                                    Recipe Name:  <br></br>                                     
+                                    <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
+                                </label>
+                                </td>
+                                <td>
+                                <label>
+                                    Cuisine:<br></br>
+                                    <input type="text" value={name} onChange={(e) => setCategory(e.target.value)} />
+                                </label>
+                                </td>                         
+                            </tr>
+                            <tr>
+                                <td>
+                                <label>
+                                    Servings:<br></br>
+                                    <input type="text" value={name} onChange={(e) => setCategory(e.target.value)} />
+                                </label>
+                                </td>
+                                <td>
+                                <label>
+                                    Category: <br></br>                                                                        
+                                    <select name="Category" onChange={(e) => setName(e.target.value)}>
+                                    <option value="volvo">Volvo</option>
+                                    <option value="saab">Saab</option>
+                                    <option value="mercedes">Mercedes</option>
+                                    <option value="audi">Audi</option>
+                                    </select>
+                                </label> 
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                <label>
+                                    Duration:<br></br>
+                                    <input type="text" value={name} onChange={(e) => setCategory(e.target.value)} />
+                                </label>
+                                </td>
+                                <td>
+                                <label>
+                                    Dietary Restrictions:<br></br>
+                                    <select name="Dietary Restrictions" onChange={(e) => setDietaryRestrictions(e.target.value)}>
+                                    <option value="volvo">Volvo</option>
+                                    <option value="saab">Saab</option>
+                                    <option value="mercedes">Mercedes</option>
+                                    <option value="audi">Audi</option>
+                                    </select>
+                                </label>
+                                </td>
+                            </tr>
+                        </table>
+                        <br></br>
+                        <button class="button25" onClick={handleSubmit}>Login</button>
+                    </form>
+                    
+                    <br></br>
+                    <p>Sample text</p> 
+                    <button class="button25" onClick={""}>Sample Button</button>
+                </div>
             </div>
         </main>
     );
