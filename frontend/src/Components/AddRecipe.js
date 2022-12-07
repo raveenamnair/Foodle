@@ -14,9 +14,9 @@ export default function AddRecipe() {
     const [cuisine, setCuisine] = useState("");
     const [category, setCategory] = useState("");
     const [dietary_restriction, setDietaryRestrictions] = useState([]);
-    
+    const [preparation, setPreparation] = useState("");
     let navigate = useNavigate();
-
+    
     const baseURL = 'http://localhost:9000'
 
     React.useEffect(() => {
@@ -58,7 +58,9 @@ export default function AddRecipe() {
     }
       
 
-
+/*<label for="preparationBox">Preparation:</label>
+                                <br></br>
+                                <input id="preparationBox" type="text" value={name} onChange={(e) => setCategory(e.target.value)} />*/
 
     return (
         <main>
@@ -66,8 +68,9 @@ export default function AddRecipe() {
             <h1>Create a recipe</h1>
             <h2>Fill out the necessary information to upload your recipe</h2>
                 <div className="recipeContent">
-                    <form className="recipeForm">
+                    <form className="recipeForm">                        
                         <table>
+                        <h2><u>Recipe</u></h2>
                             <tr>
                                 <td>
                                 <label>
@@ -78,7 +81,7 @@ export default function AddRecipe() {
                                 <td>
                                 <label>
                                     Cuisine:<br></br>
-                                    <input type="text" value={name} onChange={(e) => setCategory(e.target.value)} />
+                                    <input type="text" value={cuisine} onChange={(e) => setCuisine(e.target.value)} />
                                 </label>
                                 </td>                         
                             </tr>
@@ -86,17 +89,19 @@ export default function AddRecipe() {
                                 <td>
                                 <label>
                                     Servings:<br></br>
-                                    <input type="text" value={name} onChange={(e) => setCategory(e.target.value)} />
+                                    <input type="text" value={servings} onChange={(e) => setServings(e.target.value)} />
                                 </label>
                                 </td>
                                 <td>
                                 <label>
                                     Category: <br></br>                                                                        
-                                    <select name="Category" onChange={(e) => setName(e.target.value)}>
-                                    <option value="volvo">Volvo</option>
-                                    <option value="saab">Saab</option>
-                                    <option value="mercedes">Mercedes</option>
-                                    <option value="audi">Audi</option>
+                                    <select name="Category" onChange={(e) => setCategory(e.target.value)}>
+                                    <option value="Others">Others</option>
+                                    <option value="Breakfast">Breakfast</option>
+                                    <option value="Lunch">Lunch</option>
+                                    <option value="Dinner">Dinner</option>
+                                    <option value="Dessert">Dessert</option>
+                                    <option value="Snack">Snack</option>                                 
                                     </select>
                                 </label> 
                                 </td>
@@ -106,29 +111,40 @@ export default function AddRecipe() {
                                 <td>
                                 <label>
                                     Duration:<br></br>
-                                    <input type="text" value={name} onChange={(e) => setCategory(e.target.value)} />
+                                    <input type="text" value={duration} onChange={(e) => setDuration(e.target.value)} />
                                 </label>
                                 </td>
                                 <td>
                                 <label>
                                     Dietary Restrictions:<br></br>
                                     <select name="Dietary Restrictions" onChange={(e) => setDietaryRestrictions(e.target.value)}>
-                                    <option value="volvo">Volvo</option>
-                                    <option value="saab">Saab</option>
-                                    <option value="mercedes">Mercedes</option>
-                                    <option value="audi">Audi</option>
+                                    <option value="None">None</option>
+                                    <option value="Gluten Free">Gluten Free</option>
+                                    <option value="Vegan">Vegan</option>
+                                    <option value="Vegetarian">Vegetarian</option>
+                                    <option value="Dairy Free">Dairy Free</option>
+                                    <option value="Others">Others</option>
                                     </select>
                                 </label>
                                 </td>
                             </tr>
+                            <br></br>                           
+                            <button class="button25" onClick={""}>Add Ingredient</button>
+                            <button class="button25" onClick={""}>Remove Ingredient</button>
+                            <tr>
+                            <td colSpan="100%">
+                                <label>
+                                    Preparation Steps:<br></br>
+                                    <textarea id="preparationInput" value={preparation} onChange={(e) => setPreparation(e.target.value)} />
+                                </label>
+                            </td>
+                            </tr>
                         </table>
                         <br></br>
-                        <button class="button25" onClick={handleSubmit}>Login</button>
+                        <button class="button25" onClick={handleSubmit}>Create</button>
                     </form>
                     
-                    <br></br>
-                    <p>Sample text</p> 
-                    <button class="button25" onClick={""}>Sample Button</button>
+                    
                 </div>
             </div>
         </main>
