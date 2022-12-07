@@ -83,6 +83,24 @@ app.route('/user/stats/:username').get(function(req, res, next) {
 })
 
 /*
+ * Route for Recipe list
+ */
+
+app.route('/list_recipes/:all')
+  .get(function(req, res, next) {
+    connection.query(
+      "SELECT * FROM `Recipe`", req.params.recipe_id, 
+      function(error, results, fields) {
+        if (error) {
+          res.status(400).json({error: err});
+          return;
+        }
+        res.json(results);
+      }
+    );
+  });
+
+/*
  * Route for Recipe
  */
 

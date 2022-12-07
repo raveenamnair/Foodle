@@ -183,5 +183,27 @@ td {
   resize: vertical;
   border-radius: 10px;
   border-style: groove;
+}
 
+#recipeChain {
+  width: 100%;
+  display: block;
+  margin: auto;
+  padding: 30px;
+  border-radius: 10px;
+  background-color: #d7f0cf80;
+}
+
+#recipeBlock {
+  display: block;
+  border-radius:10px;
+  padding: 10px;
+  background-color: #fdffeab3;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 2px 6px;
+  margin: auto;
+  margin-block: 1%;
+  padding-inline: 30px;
+}
+#recipeBlock:hover {
+  filter: contrast(85%) sepia(10%);
 }
