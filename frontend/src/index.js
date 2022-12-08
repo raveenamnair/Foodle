@@ -12,7 +12,6 @@ import ExploreRecipes from "./Components/ExploreRecipes";
 import Home from "./Components/Home.js";
 import Profile from "./Components/Profile.js";
 import AddRecipe from './Components/AddRecipe.js';
-import EditRecipe from './Components/EditRecipe.js';
 import Login from './Components/Login';
 import CreateAccount from './Components/CreateAccount';
 import ExpandRecipe from './Components/ExpandRecipe';
@@ -30,7 +29,6 @@ root.render(
         <Route path="/exploreRecipes" element={<ExploreRecipes />} />
         <Route path="/addRecipe" element={<AddRecipe />} />
         <Route path="/profile" element={<Profile />} />
-        <Route path="/editRecipe" element={<EditRecipe />} />
         <Route path="/login" element={<Login />} />
         <Route path="/createAccount" element={<CreateAccount />} />
         <Route path="/expandRecipe/:recipe_id" element={<ExpandRecipe />} />

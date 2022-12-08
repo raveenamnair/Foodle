@@ -43,7 +43,7 @@ export default function ExpandRecipe() {
             .catch(error => console.error(`Error: ${error}`))
     }
     const getCurrentUser = () => {
-        let username = sessionStorage.get('username');
+        let username = sessionStorage.getItem('username');
         setCurrUsername(username)
     }
 
@@ -123,7 +123,7 @@ export default function ExpandRecipe() {
             return (
                 <>
                 <div className="titleButtons">
-                    <button>Edit Recipe</button>
+                    <button onClick={handleEdit}>Edit Recipe</button>
                     <button onClick={handleDelete}>Delete Recipe</button>
                 </div>
                 </>
@@ -179,6 +179,13 @@ export default function ExpandRecipe() {
             alert("Please try rating again later")
             console.log(error)
         })   
+    }
+
+    const handleEdit = () => {
+        // Safe check just to be sure
+        if (recipeData.author == currUsername) {
+            navigate("/addRecipe")
+        }
     }
 
     useEffect(() => {

@@ -1,9 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import {decode as base64_decode, encode as base64_encode} from 'base-64';
-
-
 
 export default function Login() {
     const [username, setUsername] = useState("");
@@ -12,10 +9,8 @@ export default function Login() {
     const [status, setStatus] = useState("");
     let navigate = useNavigate();
 
-    const baseURL = 'http://localhost:9000'
-
     React.useEffect(() => {
-        axios.get(`http://localhost:9000/user/${username}`)
+        axios.get(`/user/${username}`)
              .then((response) => setUserData(response.data))
              .catch((error) => console.log(error.message))
     }, [username]);
@@ -57,7 +52,7 @@ export default function Login() {
 
     
     const createAccount = () => {
-        navigate()
+        navigate("/createAccount")
     }
 
     return (

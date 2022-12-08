@@ -16,11 +16,9 @@ export default function AddRecipe() {
     const [dietary_restriction, setDietaryRestrictions] = useState([]);
     const [preparation, setPreparation] = useState("");
     let navigate = useNavigate();
-    
-    const baseURL = 'http://localhost:9000'
 
     React.useEffect(() => {
-        axios.get(`http://localhost:9000/user/${username}`)
+        axios.get(`/user/${username}`)
              .then((response) => setUserData(response.data))
              .catch((error) => console.log(error.message))
     }, [username]);

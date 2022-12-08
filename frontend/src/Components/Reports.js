@@ -33,7 +33,7 @@ export default function Reports() {
     }
 
     React.useEffect(() => {
-        const baseURL = 'http://localhost:9000/filter/rating_category'
+        const baseURL = '/filter/rating_category'
         if (reportData == null) {
             axios.get(`${baseURL}/${ingredient}`)
             .then((response) => setReportData(response.data))
@@ -45,7 +45,7 @@ export default function Reports() {
     }, [reportData]);
 
     const getIngredientDataReport = async () => {
-        const baseURL = 'http://localhost:9000/filter/rating_category'
+        const baseURL = '/filter/rating_category'
         
         await axios.get(`${baseURL}/${ingredient}`)
         .then(function (response) {
@@ -63,7 +63,7 @@ export default function Reports() {
 
 
     const getPriceDataReport = async () => {
-        await axios.get(`http://localhost:9000/filter/price`)
+        await axios.get(`/filter/price`)
         .then(function (response) {
             console.log("response data plz work", response.data);
             setReportData(response.data)
