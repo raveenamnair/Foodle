@@ -58,8 +58,9 @@ export default function Profile() {
 
     // Button handlers
     const handleLogout = () => {
-        sessionStorage.setItem("username", null)
+        sessionStorage.removeItem("username")
         navigate("/")
+        window.location.reload(false)
     }
 
     useEffect(() => {

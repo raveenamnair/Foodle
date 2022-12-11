@@ -37,6 +37,7 @@ export default function Login() {
             if (response.data[0][0].result == 1) {
                 sessionStorage.setItem("username", username)
                 navigate('/')
+                window.location.reload(false);
             } else {
                 alert('incorrect login')
             }
