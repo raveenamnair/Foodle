@@ -133,7 +133,7 @@ export default function AddRecipe() {
                             <td colSpan="100%">
                                 <label>
                                     Preparation Steps:<br></br>
-                                    <textarea id="preparationInput" value={preparation} onChange={(e) => setPreparation(e.target.value)} />
+                                    <textarea className="preparationInput" value={preparation} onChange={(e) => setPreparation(e.target.value)} />
                                 </label>
                             </td>
                             </tr>

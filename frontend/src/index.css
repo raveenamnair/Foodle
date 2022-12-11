@@ -40,7 +40,7 @@ label {
   padding: 10px;
 }
 
-input[type=text], input[type=password] {
+input[type=text], input[type=password], select {
   -webkit-border-radius: 10px;
   -moz-border-radius: 10px;
    border-radius: 10px;
@@ -177,7 +177,7 @@ td {
   padding: 0 80px;
 }
 
-#preparationInput {
+.preparationInput {
   width:100%;
   height:fit-content;
   resize: vertical;
@@ -206,4 +206,12 @@ td {
 }
 #recipeBlock:hover {
   filter: contrast(85%) sepia(10%);
+}
+
+.editRecipeTextbox {
+  width: 200px !important;
+}
+
+.editRecipeContent {
+  height: 250px !important;
 }
