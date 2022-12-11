@@ -23,7 +23,7 @@ export default function Reports() {
         setValue(event.target.value);
     };
 
-    const handleSubmitRating = () => {
+    const handleSubmitIngredient = () => {
         getIngredientDataReport()
         //displayReport()
     }
@@ -107,12 +107,12 @@ export default function Reports() {
             <h1>Reports</h1>
             <div className="filter_buttons">
                 <p>Filter Recipes That Don't Contain This Ingredient</p>
-                <button onClick={handleSubmitRating}>Filter by Rating and Category</button>
-                <button onClick={handleSubmitPrice}>Filter by Price Low to High</button>
-                <span> </span>
                 <label>Ingredient Name: </label> 
                 <input type="text" value={ingredient} onChange={(e) => setIngredient(e.target.value)} />
+                <button onClick={handleSubmitIngredient}>Filter By Ingredient</button><br />
+                <span> </span>
                 <br></br>
+                <button onClick={handleSubmitPrice}>Filter by Price Low to High</button>
             </div>
             <div>
             {
