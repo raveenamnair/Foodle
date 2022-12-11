@@ -363,58 +363,66 @@ app.route('/recipe/update', express.json())
     const obj = JSON.parse(req.body.body)
     const recipe = obj.recipe
     const recipe_ingredient = obj.recipe_ingredient
-    connection.beginTransaction(function (err, results, response) {
+    connection.query("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED", function (err, results, response) {
       if (err) {
         console.error(err);
         res.status(500).json({ error: err });
         return;
       }
 
-      connection.query(`UPDATE Recipe SET name = "${recipe.name}", content = "${recipe.content}", cuisine = "${recipe.cuisine}", 
-      category = "${recipe.category}", dietary_restriction = "${recipe.dietary_restriction}", duration = ${recipe.duration}, 
-      servings = ${recipe.servings} WHERE recipe_id = ${recipe.recipe_id}`, req.params.recipe_id,
-        function (err, results, response) {
-          if (err) {
-            console.error(err)
-            connection.rollback();
-            res.status(400).json({ error: err })
-            return;
-          }
+      connection.beginTransaction(function (err, results, response) {
+        if (err) {
+          console.error(err);
+          res.status(500).json({ error: err });
+          return;
+        }
 
-          connection.query(
-            `DELETE FROM Recipe_Ingredients WHERE recipe_id = ${recipe.recipe_id}`, function (err, results, response) {
-              if (err) {
-                console.error(err);
-                connection.rollback();
-                res.status(400).json({ error: err });
-                return;
-              }
+        connection.query(`UPDATE Recipe SET name = "${recipe.name}", content = "${recipe.content}", cuisine = "${recipe.cuisine}", 
+        category = "${recipe.category}", dietary_restriction = "${recipe.dietary_restriction}", duration = ${recipe.duration}, 
+        servings = ${recipe.servings} WHERE recipe_id = ${recipe.recipe_id}`,
+          function (err, results, response) {
+            if (err) {
+              console.error(err)
+              connection.rollback();
+              res.status(400).json({ error: err })
+              return;
+            }
 
-              for (let i = 0; i < recipe_ingredient.length; i++) {
-                connection.query(
-                  `INSERT INTO Recipe_Ingredients(ingredient_name, recipe_id, amount) VALUES ("${recipe_ingredient[i].ingredient_name}", ${recipe_ingredient[i].recipe_id}, ${recipe_ingredient[i].amount});`, function (err, results, response) {
-                    if (err) {
-                      console.error(err);
-                      connection.rollback();
-                      res.status(400).json({ error: err });
-                      return;
-                    }
-                  }
-                )
-              }
-
-              connection.commit((err) => {
+            connection.query(
+              `DELETE FROM Recipe_Ingredients WHERE recipe_id = ${recipe.recipe_id}`, function (err, results, response) {
                 if (err) {
-                  console.error(err)
-                  res.status(500).json({ error: err })
+                  console.error(err);
+                  connection.rollback();
+                  res.status(400).json({ error: err });
                   return;
                 }
 
-                res.json(results);
-              })
-            }
-          )
-        })
+                for (let i = 0; i < recipe_ingredient.length; i++) {
+                  connection.query(
+                    `INSERT INTO Recipe_Ingredients(ingredient_name, recipe_id, amount) VALUES ("${recipe_ingredient[i].ingredient_name}", ${recipe_ingredient[i].recipe_id}, ${recipe_ingredient[i].amount});`, function (err, results, response) {
+                      if (err) {
+                        console.error(err);
+                        connection.rollback();
+                        res.status(400).json({ error: err });
+                        return;
+                      }
+                    }
+                  )
+                }
+
+                connection.commit((err) => {
+                  if (err) {
+                    console.error(err)
+                    res.status(500).json({ error: err })
+                    return;
+                  }
+
+                  res.json(results);
+                })
+              }
+            )
+          })
+      })
     })
   });
 
