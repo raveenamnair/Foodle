@@ -426,8 +426,18 @@ app.route('/recipe/update', express.json())
     })
   });
 
-// select * from Recipe where Recipe.recipe_id = (select distinct recipe_id from Recipe_Ingredients where recipe_id not in (select recipe_id from Recipe_Ingredients where ingredient_name = 'Salt'));
-/**
+
+  app.route('/addRecipe', express.json())
+  .post(function (req, res, next) {
+    const obj = JSON.parse(req.body.body)
+    const servings = obj.servings
+    const duration = obj.duration
+    console.log(servings, duration)
+
+    // you need to do the connection.query(<PUT SQL CODE>) stuff now 
+    
+  });
+  /**
  * Just to check status of the connection
  */
  
