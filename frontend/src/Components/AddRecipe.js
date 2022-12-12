@@ -16,7 +16,7 @@ export default function AddRecipe() {
     const [dietary_restriction, setDietaryRestrictions] = useState([]);
     const [preparation, setPreparation] = useState("");
     const [ingredientList, setIngredientList] = useState([])
-    let navigate = useNavigate();
+    //let navigate = useNavigate();
 
     React.useEffect(() => {
         axios.get(`/user/${username}`)
@@ -41,8 +41,16 @@ export default function AddRecipe() {
     async function submitRecipe() {
         // Fill in the rest of the stuff 
         const data = {
+            name: name,
             servings: servings,
-            duration: duration
+            duration: duration,
+            //prices: prices,
+            cuisine: cuisine,
+            category: category,
+            dietary_restriction: dietary_restriction,
+            preparation: preparation,
+            ingredients: ingredientList
+
         }
         await axios.post('/addRecipe', {body:JSON.stringify(data)})
         .then(function (response) {
