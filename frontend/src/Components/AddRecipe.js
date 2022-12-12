@@ -15,6 +15,7 @@ export default function AddRecipe() {
     const [category, setCategory] = useState("");
     const [dietary_restriction, setDietaryRestrictions] = useState([]);
     const [preparation, setPreparation] = useState("");
+    const [ingredientList, setIngredientList] = useState([])
     let navigate = useNavigate();
 
     React.useEffect(() => {
@@ -37,17 +38,15 @@ export default function AddRecipe() {
         
     }
 
-    async function submitRecipe(data) {
-        await axios.post('/check_password', {body:JSON.stringify(data)})
+    async function submitRecipe() {
+        // Fill in the rest of the stuff 
+        const data = {
+            servings: servings,
+            duration: duration
+        }
+        await axios.post('/addRecipe', {body:JSON.stringify(data)})
         .then(function (response) {
-            if (response.data[0][0].result == 1) {
-                sessionStorage.setItem("username", username)
-                navigate('/')
-            } else {
-                alert('incorrect login')
-            }
-            console.log();
-            setStatus(response.data[0][0].result)
+            console.log(response)
         })
         .catch(function (error) {
             console.log(error);
@@ -55,6 +54,7 @@ export default function AddRecipe() {
         
     }
       
+
 
 /*<label for="preparationBox">Preparation:</label>
                                 <br></br>
@@ -128,6 +128,9 @@ export default function AddRecipe() {
                             </tr>
                             <br></br>                           
                             <button class="button25" onClick={""}>Add Ingredient</button>
+                            <label>Ingredient: 
+                                <textarea className="preparationInput" value={ingredients} onChange={(e) => setIngredients(e.target.value)} />
+                            </label>
                             <button class="button25" onClick={""}>Remove Ingredient</button>
                             <tr>
                             <td colSpan="100%">
@@ -139,7 +142,7 @@ export default function AddRecipe() {
                             </tr>
                         </table>
                         <br></br>
-                        <button class="button25" onClick={handleSubmit}>Create</button>
+                        <button class="button25" onClick={submitRecipe}>Create</button>
                     </form>
                     
                     
