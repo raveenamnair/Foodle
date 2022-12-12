@@ -36,12 +36,12 @@ const Recipe = ({recipeId, recipeName, author, durations, servings, cuisine, cat
 
     return (
         <div>
-            
-            <div className='filter_container'>
-                <div id='recipeHeader'>
-                    <div className='titleHeader'>
+            <div id='recipeBlock'>
+                <div className='titleHeader'>
                         <h1>{recipeName}</h1> 
-                    </div>
+                </div>
+                <div className='recipeContent'>
+                <div id='recipeHeader'>
                     <div className='headerDetails'>
                         <span>By: <span className='lightText'>{upperCaseFirstLetters(author)}</span></span>
                         <span>Servings: <span className='lightText'>{servings}</span></span>
@@ -57,6 +57,7 @@ const Recipe = ({recipeId, recipeName, author, durations, servings, cuisine, cat
                     </div>
                 </div><br/>
                 <button onClick={onClick}>Expand</button>
+            </div>
             </div>
             <br></br>
         </div>

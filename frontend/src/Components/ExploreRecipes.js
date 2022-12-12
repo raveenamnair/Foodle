@@ -2,11 +2,13 @@
 import {useNavigate} from 'react-router-dom';
 import React, {useEffect, useState } from "react";
 import axios from 'axios';
+import Recipe from "./Recipe";
 
 export default function ExploreRecipes() {
     let [recipeData, setRecipeData] = useState('');
-    let [ingredients, setIngredients] = useState('');
-
+    let [ingredients, setIngredients] = useState('') //('');
+    const [loading, setLoading] = useState(true)
+    
     let navigate = useNavigate();
     var selectedRecipeId = 1;
 
@@ -90,7 +92,9 @@ export default function ExploreRecipes() {
             )
         }
     }
-
+    let stopLoading = () => {
+        setLoading(false)
+    }
     let getRecipe = () => {
         if (true) {        
             //selectedRecipeId = selectedRecipeId + 1;
@@ -98,7 +102,7 @@ export default function ExploreRecipes() {
             return (
                 <>
                 <div id="recipeButtons">               
-                    <button onClick={getRecipeList}>Get Recipes</button>
+                    <button onClick={stopLoading}>Get Recipes</button>
                 </div>
                 </>
             )
@@ -129,7 +133,29 @@ export default function ExploreRecipes() {
             return Math.trunc((recipeData.duration - Math.trunc(recipeData.duration)) * 60)
         }
     }
+    const displayRecipes = () => {
+        console.log("report data:", recipeData)
+        const contactElements = [];
 
+        //return reportData[0].name
+        recipeData.forEach(item => {
+            contactElements.push(
+                <Recipe
+                recipeId={item.recipe_id}
+                recipeName={item.name}
+                author={item.author}
+                durations={item.duration}
+                servings={item.servings}
+                cuisine={item.cuisine}
+                category={item.category}
+                dietary_restriction={item.dietary_restriction}
+                />
+            )
+        });
+
+        
+        return  contactElements;
+    }
     useEffect(() => {
         getRecipeList()
         getRecipeIngredients()       
@@ -139,10 +165,12 @@ export default function ExploreRecipes() {
         <main>
         <h1>Explore Recipes</h1>
         <div className='pageContent'>
-            {getRecipe()}
+        {getRecipe()}
 
             <div id='recipeChain'>
-                {getRecipes()}                       
+                {
+                loading?'':displayRecipes()
+                }                    
             </div>
 
             <div id='junk'>
