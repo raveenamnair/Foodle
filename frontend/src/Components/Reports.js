@@ -105,21 +105,22 @@ export default function Reports() {
     return (
         <main>
             <h1>Reports</h1>
-            <div className="filter_buttons">
-                <p>Filter Recipes That Don't Contain This Ingredient</p>
-                <label>Ingredient Name: </label> 
-                <input type="text" value={ingredient} onChange={(e) => setIngredient(e.target.value)} />
-                <button onClick={handleSubmitIngredient}>Filter By Ingredient</button><br />
-                <span> </span>
-                <br></br>
-                <button onClick={handleSubmitPrice}>Filter by Price Low to High</button>
+            <div className='pageContent'>
+                <div className="filter_buttons">
+                    <p>Filter Recipes That Don't Contain This Ingredient</p>
+                    <label>Ingredient Name: </label> 
+                    <input type="text" value={ingredient} onChange={(e) => setIngredient(e.target.value)} />
+                    <button onClick={handleSubmitIngredient}>Filter By Ingredient</button><br />
+                    <span> </span>
+                    <br></br>
+                    <button onClick={handleSubmitPrice}>Filter by Price Low to High</button>
+                </div>
+                <div>
+                {
+                    loading?'':displayReport()
+                }
+                </div>
             </div>
-            <div>
-            {
-                loading?'':displayReport()
-            }
-            </div>
-
 
         </main>
     );
