@@ -432,7 +432,7 @@ app.route('/recipe/update', express.json())
     const obj = JSON.parse(req.body.body)
     const servings = obj.servings
     const duration = obj.duration
-    console.log(servings, duration)
+    console.log(obj)
 
     // you need to do the connection.query(<PUT SQL CODE>) stuff now 
     
