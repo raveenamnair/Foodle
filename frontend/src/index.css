@@ -207,6 +207,9 @@ td {
 #recipeBlock:hover {
   filter: contrast(85%) sepia(10%);
 }
+.exploreFilters {
+  margin-bottom:10px;
+}
 
 .editRecipeTextbox {
   width: 200px !important;

@@ -8,7 +8,8 @@ export default function ExploreRecipes() {
     let [recipeData, setRecipeData] = useState('');
     let [ingredients, setIngredients] = useState('') //('');
     let [category, setCategory] = useState("All");
-    const [loading, setLoading] = useState(true)
+    const [loading, setLoading] = useState(true);
+    let [ratingFilter, setRatingFilter] = useState();
     
     let navigate = useNavigate();
     var selectedRecipeId = 1;
@@ -109,8 +110,9 @@ export default function ExploreRecipes() {
         if(category =="All")
             {
             getRecipeList();
-            } else {
-                console.log(category);
+            } 
+        else {
+            console.log(category);
             getRecipeListCategory();
             }
         setLoading(false);
@@ -121,9 +123,9 @@ export default function ExploreRecipes() {
             console.log("Getting recipes");  
             return (
                 <>
-                <div id="recipeButtons">               
+                <span id="recipeButtons">               
                     <button onClick={stopLoading}>Get Recipes</button>
-                </div>
+                </span>
                 </>
             )
         } else {
@@ -184,10 +186,13 @@ export default function ExploreRecipes() {
     return (
         <main>
         <h1>Explore Recipes</h1>
-        <div className='pageContent'>
-        {getRecipe()}
-            <label>
-                Category: <br></br>                                                                        
+        <div className='pageContent'>  
+            <div class='exploreFilters'>    
+            {getRecipe()} 
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <span>
+                <label>
+                Category:&nbsp;                                                                       
                     <select name="Category" onChange={(e) => setCategory(e.target.value)}>
                     <option value="All">All</option>
                     <option value="Others">Others</option>
@@ -197,13 +202,21 @@ export default function ExploreRecipes() {
                     <option value="Dessert">Dessert</option>
                     <option value="Snack">Snack</option>                                 
                     </select>
-            </label> 
+                </label> 
+            </span>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <span><label>Recipe Rating:&nbsp;
+                    <input type="number" value={ratingFilter} onChange={(e) => setRatingFilter(e.target.value)} />
+                    </label> 
+            </span>
+            
+            </div>
+
             <div id='recipeChain'>
                 {
                 loading?'':displayRecipes()
                 }                    
-            </div>
-
+            </div>          
             <div id='junk'>
                 <div id='postRating'>
                     
