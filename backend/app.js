@@ -100,6 +100,20 @@ app.route('/list_recipes/:all')
     );
   });
 
+  app.route('/list_recipes_category/:category')
+  .get(function(req, res, next) {
+    connection.query(
+      "SELECT * FROM `Recipe` WHERE category = ?", req.params.category, 
+      function(error, results, fields) {
+        if (error) {
+          res.status(400).json({error: err});
+          return;
+        }
+        res.json(results);
+      }
+    );
+  });
+
 /*
  * Route for Recipe
  */

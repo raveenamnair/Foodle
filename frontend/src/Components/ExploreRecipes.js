@@ -7,6 +7,7 @@ import Recipe from "./Recipe";
 export default function ExploreRecipes() {
     let [recipeData, setRecipeData] = useState('');
     let [ingredients, setIngredients] = useState('') //('');
+    let [category, setCategory] = useState("All");
     const [loading, setLoading] = useState(true)
     
     let navigate = useNavigate();
@@ -17,6 +18,18 @@ export default function ExploreRecipes() {
         axios.get(`/list_recipes/${1}`)
             .then(response => {
                 console.log("incoming");
+                console.log(response);
+                const responseRecipe = response.data;
+                setRecipeData(responseRecipe);
+                //console.log(response)
+            })
+            .catch(error => console.error(`Error: ${error}`));
+    }
+
+    let getRecipeListCategory = () => {
+        axios.get(`/list_recipes_category/${category}`)
+            .then(response => {
+                console.log("incoming categ");
                 console.log(response);
                 const responseRecipe = response.data;
                 setRecipeData(responseRecipe);
@@ -93,7 +106,14 @@ export default function ExploreRecipes() {
         }
     }
     let stopLoading = () => {
-        setLoading(false)
+        if(category =="All")
+            {
+            getRecipeList();
+            } else {
+                console.log(category);
+            getRecipeListCategory();
+            }
+        setLoading(false);
     }
     let getRecipe = () => {
         if (true) {        
@@ -166,7 +186,18 @@ export default function ExploreRecipes() {
         <h1>Explore Recipes</h1>
         <div className='pageContent'>
         {getRecipe()}
-
+            <label>
+                Category: <br></br>                                                                        
+                    <select name="Category" onChange={(e) => setCategory(e.target.value)}>
+                    <option value="All">All</option>
+                    <option value="Others">Others</option>
+                    <option value="Breakfast">Breakfast</option>
+                    <option value="Lunch">Lunch</option>
+                    <option value="Dinner">Dinner</option>
+                    <option value="Dessert">Dessert</option>
+                    <option value="Snack">Snack</option>                                 
+                    </select>
+            </label> 
             <div id='recipeChain'>
                 {
                 loading?'':displayRecipes()
