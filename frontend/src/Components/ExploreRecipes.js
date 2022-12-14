@@ -9,7 +9,7 @@ export default function ExploreRecipes() {
     let [ingredients, setIngredients] = useState('') //('');
     let [category, setCategory] = useState("All");
     const [loading, setLoading] = useState(true);
-    let [ratingFilter, setRatingFilter] = useState();
+    let [ratingFilter, setRatingFilter] = useState(0);
     
     let navigate = useNavigate();
     var selectedRecipeId = 1;
@@ -30,7 +30,31 @@ export default function ExploreRecipes() {
     let getRecipeListCategory = () => {
         axios.get(`/list_recipes_category/${category}`)
             .then(response => {
-                console.log("incoming categ");
+                console.log("Using category");
+                console.log(response);
+                const responseRecipe = response.data;
+                setRecipeData(responseRecipe);
+                //console.log(response)
+            })
+            .catch(error => console.error(`Error: ${error}`));
+    }
+    //Get recipe using only rating
+    let getRecipeListRating = () => {
+        axios.get(`/explore_recipes_rating/${ratingFilter}`)
+            .then(response => {
+                console.log("USING RATING QUERY");
+                console.log(response);
+                const responseRecipe = response.data;
+                setRecipeData(responseRecipe);
+                //console.log(response)
+            })
+            .catch(error => console.error(`Error: ${error}`));
+    }
+    //Get recipe using category and rating
+    let getRecipeListCategoryRating = () => {
+        axios.get(`/explore_recipes/${category}`)
+            .then(response => {
+                console.log("USING RATING QUERY");
                 console.log(response);
                 const responseRecipe = response.data;
                 setRecipeData(responseRecipe);
@@ -109,11 +133,25 @@ export default function ExploreRecipes() {
     let stopLoading = () => {
         if(category =="All")
             {
-            getRecipeList();
+            if(ratingFilter == 0)
+                {
+                getRecipeList();//Get recipes with no filter
+                }
+            else
+                {
+                getRecipeListRating();//Get recipes with a rating and no category
+                }
             } 
         else {
             console.log(category);
-            getRecipeListCategory();
+            if(ratingFilter == 0)
+                {
+                getRecipeListCategory();//Get recipes with just a category filter
+                }
+            else
+                {
+                getRecipeListCategoryRating();//Get recipes with a rating and category
+                }
             }
         setLoading(false);
     }
@@ -205,8 +243,8 @@ export default function ExploreRecipes() {
                 </label> 
             </span>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <span><label>Recipe Rating:&nbsp;
-                    <input type="number" value={ratingFilter} onChange={(e) => setRatingFilter(e.target.value)} />
+            <span><label>Minimum Rating:&nbsp;
+                    <input type="number" min="0" max="10" value={ratingFilter} onChange={(e) => setRatingFilter(e.target.value)} />
                     </label> 
             </span>
             
