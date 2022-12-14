@@ -183,6 +183,9 @@ export default function ExploreRecipes() {
         getRecipeIngredients()       
     }, []);
 
+    const addRecipe = () => {
+        navigate('/addRecipe')
+    }
     return (
         <main>
         <h1>Explore Recipes</h1>
@@ -209,6 +212,8 @@ export default function ExploreRecipes() {
                     <input type="number" value={ratingFilter} onChange={(e) => setRatingFilter(e.target.value)} />
                     </label> 
             </span>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button onClick={addRecipe}>Add Recipe</button>
             
             </div>
 
