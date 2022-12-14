@@ -129,10 +129,12 @@ app.route('/list_recipes/:all')
     );
   });
 
-  app.route('/explore_recipes/:category')
+  app.route('/explore_recipes/:category/:rating')
   .get(function(req, res, next) {
+    var category = req.params.category;
+    var rating = req.params.rating;
     connection.query(
-      "SELECT DISTINCT r.recipe_id as recipe_id, r.name as name, r.author as author, r.duration as duration, r.servings as servings, r.cuisine as cuisine, r.category as category, r.dietary_restriction as dietary_restriction FROM `Recipe` as r LEFT OUTER JOIN `Rating` as rat ON r.recipe_id = rat.recipe_id WHERE r.category = ?", req.params.category, 
+      "SELECT DISTINCT r.recipe_id as recipe_id, r.name as name, r.author as author, r.duration as duration, r.servings as servings, r.cuisine as cuisine, r.category as category, r.dietary_restriction as dietary_restriction FROM `Recipe` as r LEFT OUTER JOIN `Rating` as rat ON r.recipe_id = rat.recipe_id WHERE r.category = ? GROUP BY recipe_id HAVING AVG(score) > ?", [category, rating], 
       function(error, results, fields) {
         if (error) {
           res.status(400).json({error: err});

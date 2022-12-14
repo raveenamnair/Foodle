@@ -52,7 +52,7 @@ export default function ExploreRecipes() {
     }
     //Get recipe using category and rating
     let getRecipeListCategoryRating = () => {
-        axios.get(`/explore_recipes/${category}`)
+        axios.get(`/explore_recipes/${category}/${ratingFilter}`)
             .then(response => {
                 console.log("USING RATING QUERY");
                 console.log(response);
