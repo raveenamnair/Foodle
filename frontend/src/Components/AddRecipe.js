@@ -3,9 +3,6 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 export default function AddRecipe() {
-    const [username, setUsername] = useState("");
-    const [status, setStatus] = useState("");
-    const [userData, setUserData] = useState([]);
     const [name, setName] = useState("");
     const [servings, setServings] = useState("");
     const [duration, setDuration] = useState("");
@@ -16,29 +13,9 @@ export default function AddRecipe() {
     const [dietary_restriction, setDietaryRestrictions] = useState([]);
     const [preparation, setPreparation] = useState("");
     const [ingredientList, setIngredientList] = useState([])
-    //let navigate = useNavigate();
 
-    React.useEffect(() => {
-        axios.get(`/user/${username}`)
-             .then((response) => setUserData(response.data))
-             .catch((error) => console.log(error.message))
-    }, [username]);
 
-    const handleSubmit = async () => {
-        console.log("login")
-        if (username.length === 0 || name.length === 0) {
-            alert("all fields not filled. Try again")
-            return
-        }
-
-        //const data = {input_password: password, username: username}
-    
-        //await submitRecipe(data)
-        //console.log(status)
-        
-    }
-
-    async function submitRecipe() {
+    const submitRecipe = async () => {
         // Fill in the rest of the stuff 
         const data = {
             name: name,
@@ -52,7 +29,7 @@ export default function AddRecipe() {
             ingredients: ingredientList
 
         }
-        await axios.post('/addRecipe', {body:JSON.stringify(data)})
+        await axios.post('http://localhost:9000/addRecipe', {body:JSON.stringify(data)})
         .then(function (response) {
             console.log(response)
         })
@@ -62,12 +39,6 @@ export default function AddRecipe() {
         
     }
       
-
-
-/*<label for="preparationBox">Preparation:</label>
-                                <br></br>
-                                <input id="preparationBox" type="text" value={name} onChange={(e) => setCategory(e.target.value)} />*/
-
     return (
         <main>
             <div className='pageContent'>
@@ -135,11 +106,11 @@ export default function AddRecipe() {
                                 </td>
                             </tr>
                             <br></br>                           
-                            <button class="button25" onClick={""}>Add Ingredient</button>
+                            <button class="button25" >Add Ingredient</button>
                             <label>Ingredient: 
                                 <textarea className="preparationInput" value={ingredients} onChange={(e) => setIngredients(e.target.value)} />
                             </label>
-                            <button class="button25" onClick={""}>Remove Ingredient</button>
+                            <button class="button25" >Remove Ingredient</button>
                             <tr>
                             <td colSpan="100%">
                                 <label>
