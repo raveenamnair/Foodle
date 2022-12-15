@@ -484,16 +484,15 @@ app.route('/recipe/update', express.json())
     const ingredients = obj.ingredients
     
     console.log(obj)
-    connection.query(`INSERT INTO Recipe (name, content, cuisine, category, dietary_restriction, duration, servings) name = "${name}", content = "${content}", cuisine = "${cuisine}", 
-        category = "${category}", dietary_restriction = "${dietary_restriction}", duration = ${duration}, 
-        servings = ${servings}`,
+    connection.query(`INSERT INTO Recipe (name, cuisine, category, dietary_restriction, duration, servings) VALUES("${name}", "${cuisine}", 
+        "${category}","${dietary_restriction}", ${duration}, ${servings});`,
           function (err, results, response) {
             if (err) {
               console.error(err)
               connection.rollback();
               res.status(400).json({ error: err })
               return;
-            }
+            }})
     // you need to do the connection.query(<PUT SQL CODE>) stuff now 
     
   });
