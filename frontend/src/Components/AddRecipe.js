@@ -18,6 +18,7 @@ export default function AddRecipe() {
     const submitRecipe = async () => {
         // Fill in the rest of the stuff 
         const data = {
+            author: sessionStorage.getItem('username'),
             name: name,
             servings: servings,
             duration: duration,
