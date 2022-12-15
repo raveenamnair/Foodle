@@ -482,10 +482,12 @@ app.route('/recipe/update', express.json())
     const dietary_restriction = obj.dietary_restriction
     const preparation = obj.preparation
     const ingredients = obj.ingredients
+    const author = "aaa"
+    const content = ""
     
     console.log(obj)
-    connection.query(`INSERT INTO Recipe (name, cuisine, category, dietary_restriction, duration, servings) VALUES("${name}", "${cuisine}", 
-        "${category}","${dietary_restriction}", ${duration}, ${servings});`,
+    connection.query(`INSERT INTO Recipe (author, name, cuisine, category, dietary_restriction, duration, servings, content) VALUES("${author}","${name}", "${cuisine}", 
+        "${category}","${dietary_restriction}", ${duration}, ${servings}, "${content}");`,
           function (err, results, response) {
             if (err) {
               console.error(err)
