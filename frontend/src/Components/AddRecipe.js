@@ -10,7 +10,7 @@ export default function AddRecipe() {
     const [prices, setPrices] = useState("");
     const [cuisine, setCuisine] = useState("");
     const [category, setCategory] = useState("Others");
-    const [dietary_restriction, setDietaryRestrictions] = useState([]);
+    const [dietary_restriction, setDietaryRestrictions] = useState("None");
     const [preparation, setPreparation] = useState("");
     const [ingredientList, setIngredientList] = useState([])
 
